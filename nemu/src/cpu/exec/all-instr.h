@@ -35,3 +35,4 @@
 #include "data-mov/pop.h"
 #include "logic/test.h"
 #include "arith/cmp.h"
+#include "arith/sub.h"
