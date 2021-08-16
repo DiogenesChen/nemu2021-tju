@@ -30,6 +30,7 @@
 
 #include "control/call.h"
 #include "control/jcc.h"
+#include "control/ret.h"
 #include "data-mov/push.h"
 #include "data-mov/pop.h"
 #include "logic/test.h"
