@@ -16,6 +16,6 @@
 
 make_helper_v(cmp_i2a)
 make_helper_v(cmp_i2rm)
-make_helper_v(cmp_si2rm)//待删除
+make_helper_v(cmp_si2rm)
 make_helper_v(cmp_r2rm)
 make_helper_v(cmp_rm2r)

@@ -10,9 +10,7 @@ static void do_execute () {
 	dest >>= count;
 	OPERAND_W(op_dest, dest);
 
-	/* There is no need to update EFLAGS, since no other instructions 
-	 * in PA will test the flags updated by this instruction.
-	 */
+	update_eflags_pf_zf_sf(dest);
 
 	print_asm_template2();
 }
