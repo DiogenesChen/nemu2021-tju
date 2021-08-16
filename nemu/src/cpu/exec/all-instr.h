@@ -45,3 +45,4 @@
 #include "arith/sbb.h"
 #include "string/lods.h"
 #include "string/scas.h"
+#include "string/stos.h"
