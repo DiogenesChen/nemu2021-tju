@@ -69,7 +69,7 @@ make_group(group3_b,
 
 /* 0xf7 */
 make_group(group3_v,
-	inv, inv, inv, inv, 
+	inv, inv, not_rm_v, inv, 
 	inv, inv, inv, inv)
 
 /* 0xfe */
