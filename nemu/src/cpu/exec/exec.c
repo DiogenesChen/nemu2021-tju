@@ -95,7 +95,7 @@ make_group(group7,
 
 helper_fun opcode_table [256] = {
 /* 0x00 */	inv, add_r2rm_v, inv, inv,
-/* 0x04 */	inv, inv, inv, inv,
+/* 0x04 */	inv, add_i2a_v, inv, inv,
 /* 0x08 */	inv, or_r2rm_v, or_rm2r_b, inv,
 /* 0x0c */	inv, inv, inv, _2byte_esc,
 /* 0x10 */	inv, adc_r2rm_v, inv, inv,
