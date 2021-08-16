@@ -29,7 +29,8 @@
 /*---------------------------------------*/
 
 #include "control/call.h"
-#include "data-mov/push.h"
-#include "logic/test.h"
 #include "control/jcc.h"
+#include "data-mov/push.h"
+#include "data-mov/pop.h"
+#include "logic/test.h"
 #include "arith/cmp.h"
