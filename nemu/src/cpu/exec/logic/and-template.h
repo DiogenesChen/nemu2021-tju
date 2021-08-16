@@ -7,7 +7,9 @@ static void do_execute () {
 	OPERAND_W(op_dest, result);
 
 	/* TODO: Update EFLAGS. */
-	panic("please implement me");
+//	panic("please implement me");
+	update_eflags_pf_zf_sf((DATA_TYPE_S)result);
+	cpu.eflags.CF = cpu.eflags.OF = 0;
 
 	print_asm_template2();
 }
