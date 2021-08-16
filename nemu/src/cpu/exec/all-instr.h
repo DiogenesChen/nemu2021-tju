@@ -39,3 +39,4 @@
 #include "logic/setcc.h"
 #include "arith/cmp.h"
 #include "arith/sub.h"
+#include "arith/add.h"
