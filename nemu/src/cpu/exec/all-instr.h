@@ -42,3 +42,4 @@
 #include "arith/sub.h"
 #include "arith/add.h"
 #include "arith/adc.h"
+#include "string/lods.h"
