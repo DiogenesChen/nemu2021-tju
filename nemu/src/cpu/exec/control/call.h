@@ -2,6 +2,6 @@
 #define __CALL_H__
 
 make_helper(call_si);
-make_helper(call_rm);
+make_helper(call_rm); //待删除
 
 #endif

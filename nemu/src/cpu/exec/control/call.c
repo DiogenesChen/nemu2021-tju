@@ -10,7 +10,7 @@ make_helper(call_si) {
 	print_asm("call %x", cpu.eip + 1 + len);
 
 	return len + 1;
-}
+}// 待删除
 
 make_helper(call_rm) {
 	int len = decode_rm_l(eip + 1);
