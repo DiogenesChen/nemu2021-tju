@@ -43,3 +43,4 @@
 #include "arith/add.h"
 #include "arith/adc.h"
 #include "string/lods.h"
+#include "string/scas.h"
