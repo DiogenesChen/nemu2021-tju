@@ -70,7 +70,7 @@ make_group(group3_b,
 /* 0xf7 */
 make_group(group3_v,
 	inv, inv, not_rm_v, inv, 
-	inv, imul_rm2a_v, inv, idiv_rm_v)
+	mul_rm_v, imul_rm2a_v, inv, idiv_rm_v)
 
 /* 0xfe */
 make_group(group4,
