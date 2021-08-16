@@ -36,5 +36,6 @@
 #include "data-mov/pop.h"
 #include "data-mov/leave.h"
 #include "logic/test.h"
+#include "logic/setcc.h"
 #include "arith/cmp.h"
 #include "arith/sub.h"
