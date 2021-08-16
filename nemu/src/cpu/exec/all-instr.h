@@ -32,3 +32,4 @@
 #include "data-mov/push.h"
 #include "logic/test.h"
 #include "control/jcc.h"
+#include "arith/cmp.h"
