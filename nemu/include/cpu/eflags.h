@@ -5,7 +5,7 @@
 
 void update_eflags_pf_zf_sf(uint32_t);
 
-static inline bool check_cc_o() {
+/*static inline bool check_cc_o() {
 	return cpu.eflags.OF;
 }
 
@@ -67,6 +67,6 @@ static inline bool check_cc_le() {
 
 static inline bool check_cc_g() {
 	return !((cpu.eflags.SF ^ cpu.eflags.OF) | cpu.eflags.ZF);
-}
+}*/
 
 #endif
