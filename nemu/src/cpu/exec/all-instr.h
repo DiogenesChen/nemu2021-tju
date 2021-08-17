@@ -28,6 +28,9 @@
 #include "logic/shrd.h"
 
 #include "string/rep.h"
+#include "string/scas.h"
+#include "string/stos.h"
+#include "string/movs.h"
 
 #include "misc/misc.h"
 
@@ -36,7 +39,3 @@
 /*---------------------------------------*/
 #include "data-mov/leave.h"
 
-#include "string/lods.h"
-#include "string/scas.h"
-#include "string/stos.h"
-#include "string/movs.h"
