@@ -13,6 +13,7 @@
 #include "arith/idiv.h"
 #include "arith/div.h"
 #include "arith/sbb.h"
+#include "arith/sub.h"
 
 #include "control/jmp.h"
 
@@ -34,8 +35,6 @@
 
 /*---------------------------------------*/
 #include "data-mov/leave.h"
-#include "arith/sub.h"
-#include "arith/add.h"
 
 #include "string/lods.h"
 #include "string/scas.h"
