@@ -31,7 +31,6 @@
 #include "control/jmp.h"
 #include "data-mov/leave.h"
 #include "data-mov/movext.h"
-#include "logic/test.h"
 #include "logic/setcc.h"
 #include "arith/cmp.h"
 #include "arith/sub.h"
