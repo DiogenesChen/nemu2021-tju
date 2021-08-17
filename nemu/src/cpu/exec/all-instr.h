@@ -32,7 +32,6 @@
 #include "data-mov/leave.h"
 #include "data-mov/movext.h"
 #include "logic/setcc.h"
-#include "arith/cmp.h"
 #include "arith/sub.h"
 #include "arith/add.h"
 #include "arith/adc.h"
