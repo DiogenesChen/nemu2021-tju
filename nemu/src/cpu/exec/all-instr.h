@@ -3,6 +3,7 @@
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/movext.h"
+#include "data-mov/cltd.h"
 
 #include "arith/adc.h"
 #include "arith/dec.h"
@@ -34,6 +35,4 @@
 #include "misc/misc.h"
 
 #include "special/special.h"
-
-/*---------------------------------------*/
 
