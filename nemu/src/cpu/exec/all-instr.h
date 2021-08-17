@@ -30,7 +30,6 @@
 #include "control/jcc.h"
 #include "control/ret.h"
 #include "control/jmp.h"
-#include "data-mov/push.h"
 #include "data-mov/pop.h"
 #include "data-mov/leave.h"
 #include "data-mov/movext.h"
