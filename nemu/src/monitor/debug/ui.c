@@ -48,7 +48,7 @@ static int cmd_si(char *args) {
         if(!charpointer && atoi(args) > 0)
             steps = atoi(args);
         else
-            printf("si : %s : illegal argument, non integer or too big", args);
+            printf("si : %s : illegal argument, non integer or too big.\n", args);
     }
     else
         cpu_exec(1);
