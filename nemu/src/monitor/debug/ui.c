@@ -37,11 +37,21 @@ static int cmd_q(char *args) {
 }
 
 static int cmd_si(char *args) {
-    int steps = 1;
-    if(strlen(args) - 3){
-        steps = atoi(args + 3);
+    if(args){
+        int steps;
+        char* charpointer = args;
+        while (charpointer) {
+            if(charpointer[0] - '0' > 9 && charpointer[0] - '0' < 0)
+                break;
+            charpointer++;
+        }
+        if(!charpointer && atoi(args) > 0)
+            steps = atoi(args);
+        else
+            printf("si : %s : illegal argument, non integer or too big", args);
     }
-    cpu_exec(steps);
+    else
+        cpu_exec(1);
     return 0;
 }
 
