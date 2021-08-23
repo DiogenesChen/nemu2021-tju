@@ -104,7 +104,7 @@ uClibc(https://www.uclibc.org/)是一个用于嵌入系统的C库。它需要的
 * 6个系统调用
  * 打开、读、写、搜索、关闭、刷新
 
-##打字游戏
+## 打字游戏
 
 这是NJU 2013 oslab0的demo的分叉（起源库已被删除，但我们有它的分叉--https://github.com/nju-ics/os-lab0）。它被移植到了NEMU上。
 
@@ -115,19 +115,6 @@ uClibc(https://www.uclibc.org/)是一个用于嵌入系统的C库。它需要的
 通过www.DeepL.com/Translator（免费版）翻译
 
 uClibc(https://www.uclibc.org/) is a C library for embedding systems. It requires much fewer run-time support than glibc and is very friendly to NEMU.
-
-## kernel
-
-
-
-## typing game
-
-This is a fork of the demo of NJU 2013 oslab0(the origin repository has been deleted, but we have a fork of it -- https://github.com/nju-ics/os-lab0). It is ported to NEMU.
-
-## NEMU-PAL
-
-This is a fork of Wei Mingzhi's SDLPAL(https://github.com/CecilHarvey/sdlpal). It is obtained by refactoring the original SDLPAL, as well as porting to NEMU.
-(Completely translated by https://www.deepl.com/translator)
 
 ----
 
