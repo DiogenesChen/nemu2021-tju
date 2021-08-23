@@ -60,7 +60,8 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
         if(args) {
                 if( args[0] == 'r' ) {
-                        for(int i = 0; i <= R_EDI; i++) {
+			int i;
+                        for(i = R_EAX; i <= R_EDI; i++) {
                             printf( "$%s\t0x%08x\n", regsl[i], reg_l(i) );
                         }
                         printf( "$eip\t0x%08x\n", cpu.eip );
