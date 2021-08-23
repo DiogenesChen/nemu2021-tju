@@ -57,7 +57,20 @@ static int cmd_si(char *args) {
     return 0;
 }
 
-
+static int cmd_info(char *args) {
+        if(args) {
+                if( args[0] == 'r' ) {
+                        for(int i = 0; i <= R_EDI; i++) {
+                            printf( "$%s\t0x%08x\n", regsl[i], reg_l(i) );
+                        }
+                        printf( "$eip\t0x%08x\n", cpu.eip );
+                }
+            //或者一个一个打出来也可以
+                else if( args[0] == 'w' ){}
+        }
+        else printf("Invalid Command");
+    return 0;
+}
 
 static int cmd_help(char *args);
 
@@ -69,7 +82,8 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "Continue the excution for peticular steps(-num), default 1", cmd_si },
+	{ "si", "Continue the excution for peticular steps(-num), default as 1", cmd_si },
+	{ "info", "Print the value of registers", cmd_info },
 
 	/* TODO: Add more commands */
 
