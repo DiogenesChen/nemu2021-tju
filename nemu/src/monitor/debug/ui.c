@@ -40,17 +40,17 @@ static int cmd_si(char *args) {
     if(args){
         int steps;
         char* charpointer = args;
-        while (charpointer) {
-            if(charpointer[0] - '0' > 9 && charpointer[0] - '0' < 0)
+        while (charpointer[0]) {
+            if(charpointer[0] - '0' > 9 || charpointer[0] - '0' < 0)
                 break;
             charpointer++;
         }
-        if(!charpointer && atoi(args) < 11 && atoi(args) > 0){
+        if(!charpointer[0] && atoi(args) < 11 && atoi(args) > 0){
             steps = atoi(args);
             cpu_exec(steps);
         }
         else
-            printf("si : %s : illegal argument, non integer or too big", args);
+            printf("si : %s : illegal argument, non integer or too big\n", args);
     }
     else
         cpu_exec(1);
