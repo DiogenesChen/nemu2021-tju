@@ -60,11 +60,10 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
         if(args) {
                 if( args[0] == 'r' ) {
-			int i;
-                        for(i = R_EAX; i <= R_EDI; i++) {
-                            printf( "$%s\t0x%08x\n", regsl[i], reg_l(i) );
+                        for(int i = 0; i <= R_EDI; i++) {
+                            printf( "$%s\t0x%08x\t%d\n", regsl[i], reg_l(i), reg_l(i));
                         }
-                        printf( "$eip\t0x%08x\n", cpu.eip );
+                        printf( "$eip\t0x%08x\t%d\n", cpu.eip, cpu.eip );
                 }
             //或者一个一个打出来也可以
                 else if( args[0] == 'w' ){}
@@ -75,7 +74,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args){
     if (args == NULL) {
-            printf("Argument lost, you may mean\n\t-x [accessingNum] [adress]\n");
+            printf("Argument lost, you may mean\n\tx [accessingNum] [adress]\n");
             return 0;
     }
     int num;
@@ -83,7 +82,9 @@ static int cmd_x(char *args){
     sscanf(args, "%d%x", &num, &star_adress);
     int i;
     for(i = 0; i < num; i++){
-        printf("0x%08x : 0x%08x\n", star_adress, swaddr_read (star_adress, 4));
+        if(!(i % 4))
+            printf("0x%08x : ", star_adress);
+        printf("0x%08x ", swaddr_read(star_adress, 4));
         star_adress+=4;
     }
     return 0;
