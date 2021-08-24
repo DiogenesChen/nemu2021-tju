@@ -89,9 +89,9 @@ static int cmd_x(char *args){
         star_adress+=4;
 	if(!(i % 4))
 	    printf("\n");
-	if(num % 4)
-	    printf("\n");
     }
+    if(num % 4)
+	printf("\n");
     return 0;
 }
 
