@@ -75,7 +75,7 @@ static int cmd_info(char *args) {
 
 static int cmd_x(char *args){
     if (args == NULL) {
-            printf("Argument lost, you may mean\n\tx [accessingNum] [adress]\n");
+            printf("Argument lost, you may mean\n\t-x [accessingNum] [adress]\n");
             return 0;
     }
     int num;
