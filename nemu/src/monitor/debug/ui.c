@@ -73,6 +73,22 @@ static int cmd_info(char *args) {
     return 0;
 }
 
+static int cmd_x(char *args){
+    if (args == NULL) {
+            printf("Wrong Command!\n");
+            return 0;
+    }
+    int num;
+    swaddr_t star_adress;
+    sscanf(args, "%d%x", &num, &star_adress);
+    int i;
+    for(i = 0; i < num; i++){
+        printf("0x%8x : 0x%8x", star_adress, swaddr_read (star_adress, 4));
+        star_adress+=4;
+    }
+    return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -85,6 +101,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Continue the excution for peticular steps(-num), default as 1", cmd_si },
 	{ "info", "Print the value of registers", cmd_info },
+	{ "x", "Print the address of memory", cmd_x},
 
 	/* TODO: Add more commands */
 
