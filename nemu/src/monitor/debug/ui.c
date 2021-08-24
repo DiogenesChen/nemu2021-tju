@@ -83,7 +83,7 @@ static int cmd_x(char *args){
     sscanf(args, "%d%x", &num, &star_adress);
     int i;
     for(i = 0; i < num; i++){
-        printf("0x%8x : 0x%8x", star_adress, swaddr_read (star_adress, 4));
+        printf("0x%8x : 0x%8x\n", star_adress, swaddr_read (star_adress, 4));
         star_adress+=4;
     }
     return 0;
