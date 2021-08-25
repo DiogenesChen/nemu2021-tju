@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NUMBER, RIGISTER, HNUMBER, NEQ, AND, OR,
+	NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR,
 
 	/* TODO: Add more token types */
 
@@ -24,7 +24,7 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE, 0},				// spaces
-    {"\\b[0-9]+\\b",NUMBER,0},      // number
+    {"\\b[0-9]{1,31}\\b",NUMBER,0},      // number
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -36,8 +36,8 @@ static struct rule {
     {"!",'!',6},                    // not
     {"\\(", '(', 7},
     {"\\)", ')', 7},                // braces
-    {"\\b0[xX][0-9a-fA-F]+\\b",HNUMBER,0},        // hex number
-    {"\\$[a-zA-Z]+",REGISTER,0},                  // register
+    {"\\b0[xX][0-9a-fA-F]{1,31}\\b",HNUMBER,0},        // hex number
+    {"\\$[a-zA-Z]{2,3}",REGISTER,0},                  // register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -94,23 +94,49 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
                     case NOTYPE: break;
                     case REGISTER: {
-                        tokens
-                    }
+                        tokens[nr_token].type = rules[i].token_type;
+                        tokens[nr_token].priority = rules[i].priority;
+                        strncpy(tokens[nr_token].str, substr_start + 1, substr_len - 1);
+                        tokens[nr_token].str[substr_len-1] = '\0';
+                        nr_token ++;
                         
-					default: panic("please implement me");
-				}
+                        break;
+                    } // REGISTERS recorded as "[register name]\0", lost of first'$'
+                    default:{
+                        tokens[nr_token].type = rules[i].token_type;
+                        tokens[nr_token].priority = rules[i].priority;
+                        strncpy(tokens[nr_token].str, substr_start, substr_len);
+                        tokens[nr_token].str[substr_len] = '\0';
+                        nr_token ++;
 
-				break;
-			}
-		}
-
+                        break;
+                    } // Normal types
+                }
+                position += substr_len;
+                break;
+            }
+        }
 		if(i == NR_REGEX) {
 			printf("no match at position %d\n%s\n%*.s^\n", position, e, position, "");
 			return false;
 		}
-	}
-
+    }
+    
 	return true; 
+}
+
+uint32_t eval(uint32_t lp, uint32_t rp){
+    if(lp > rp) { Assert (lp > rp, "Wrong expression!\n"); return 0;}
+    else if (lp == rp){
+        uint32_t num = 0;
+        if(tokens[lp].type == NUMBER)
+            sscanf(tokens[lp].str, "%d", &num);
+        else if (tokens[lp].type == HNUMBER)
+            sscanf(tokens[lp].str, "%x", &num);
+        else if (tokens[lp].type == REGISTER){
+            
+        }
+    }
 }
 
 uint32_t expr(char *e, bool *success) {
@@ -120,7 +146,8 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+    
+    
 	return 0;
 }
 
