@@ -85,7 +85,6 @@ static bool make_token(char *e) {
 				int substr_len = pmatch.rm_eo;
 
 				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
-				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
 				 * to record the token in the array `tokens'. For certain types
@@ -134,7 +133,29 @@ uint32_t eval(uint32_t lp, uint32_t rp){
         else if (tokens[lp].type == HNUMBER)
             sscanf(tokens[lp].str, "%x", &num);
         else if (tokens[lp].type == REGISTER){
-            
+            if(strlen(tokens[lp].str) == 3){
+                int i;
+                for(i = R_EAX; i <= R_EDI; i++){
+                    if(strcmp(tokens[lp].str, regsl[i]) == 0) {num = reg_l(i);  break;}
+                }
+                if( i > R_EDI && strcmp(tokens[lp].str, "eip") == 0) num = cpu.eip;
+                    else Assert(1, "No such register, you may check for your spellings");
+            }
+            else if(strlen(tokens[lp].str) == 2){
+                int i;
+                if(tokens[lp].str[1] == 'x' || tokens[lp].str[1] == 'i' || tokens[lp].str[1] == 'p'){
+                    for(i = R_AX; i <= R_DI; i ++){
+                        if(strcmp(tokens[lp].str, regsw[i]) == 0) {num = reg_w(i);  break;}
+                        else Assert(1, "No such register, you may check for your spellings");
+                    }
+                }
+                else if(tokens[lp].str[1] == 'h' || tokens[lp].str[1] == 'l'){
+                    for(i = R_AL; i <= R_BH; i ++){
+                        if(strcmp(tokens[lp].str, regsb[i]) == 0) {num = reg_b(i);  break;}
+                        else Assert(1, "No such register, you may check for your spellings");
+                    }
+                }
+            }
         }
     }
 }
