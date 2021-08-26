@@ -145,7 +145,7 @@ bool check_parentness(uint32_t lp, uint32_t rp){
 uint32_t make_dop(uint32_t lp, uint32_t rp){
     printf("entering makedop\n");
     int i;
-    int dop = lp;
+    int dop = tokens[lp].priority;
     for(i = lp; i <= rp; i++){
         int cnt = 0;
         bool jug = false;
