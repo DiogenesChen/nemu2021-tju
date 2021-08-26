@@ -22,22 +22,22 @@ static struct rule {
 	/* TODO: Add more rules.
 	 * Pay attention to the precedence level of different rules.
 	 */
-
-	{" +",	NOTYPE, 0},				// spaces
-    {"\\b[0-9]+\\b",NUMBER,0}, // number
-    {"\\|\\|",OR,1},                // or
-    {"&&",AND,2},                   // and
-    {"==", EQ, 3},                  // equal
-    {"!=", NEQ, 3},                 // not equal
-	{"\\+", '+', 4},			    // plus
-    {"-", '-', 4},                  // sub
-    {"\\*", '*', 5},                // multiples
-    {"/", '/', 5},                  // divide
-    {"!",'!',6},                    // not
-    {"\\(", '(', 7},
-    {"\\)", ')', 7},                // braces
-    {"\\b0[xX][0-9a-fA-F]+\\b",HNUMBER,0},        // hex number
-    {"\\$[a-zA-Z]+",REGISTER,0},                  // register
+	{"\\b[0-9]+\\b",NUMBER,0},				// number
+	{"\\b0[xX][0-9a-fA-F]+\\b",HNUMBER,0},		// 16 number
+	{"\\$[a-zA-Z]+",REGISTER,0},				// register
+	{"!=",NEQ,3},						// not equal	
+	{"!",'!',6},						// not
+	{"\\*",'*',5},						// mul
+	{"/",'/',5},						// div
+	{"	+",NOTYPE,0},					// tabs
+	{" +",NOTYPE,0},					// spaces
+	{"\\+",'+',4},						// plus
+	{"-",'-',4},						// sub
+	{"==", EQ,3},						// equal
+	{"&&",AND,2},						// and
+	{"\\|\\|",OR,1},						// or
+	{"\\(",'(',7},                        // left bracket   
+	{"\\)",')',7},                        // right bracket 
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
