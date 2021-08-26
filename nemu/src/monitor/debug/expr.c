@@ -71,7 +71,6 @@ Token tokens[32];
 int nr_token;
 
 static bool make_token(char *e) {
-    printf("entering make_token\n");
 	int position = 0;
 	int i;
 	regmatch_t pmatch;
@@ -126,7 +125,6 @@ static bool make_token(char *e) {
 }
 
 bool check_parentness(uint32_t lp, uint32_t rp){
-    printf("entering checkp\n");
     if(tokens[lp].type == '(' && tokens[rp].type == ')'){
         int lbn = 0, rbn = 0;
         int i = lp + 1;
@@ -143,16 +141,12 @@ bool check_parentness(uint32_t lp, uint32_t rp){
 }
 
 uint32_t make_dop(int lp, int rp){
-    printf("entering makedop\n");
     int i, j;
     int dop = lp;
 	int min_priority = 10;
     for(i = lp; i <= rp; i ++){
-		if (tokens[i].type == '+') printf("PLUS!\n");
-        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER){
+        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER)
                     continue;
-			printf("here!\n");
-		}
         int cnt = 0;
         bool key = true;
         for (j = i - 1; j >= lp ;j --){
@@ -160,18 +154,15 @@ uint32_t make_dop(int lp, int rp){
             if (tokens[j].type == '(' && !cnt){key = false;break;}
             if (tokens[j].type == '(')cnt --;
             if (tokens[j].type == ')')cnt ++;
-			printf("HERE!\n");
         }
             if (!key)continue;
             if (tokens[i].priority <= min_priority){min_priority = tokens[i].priority;dop = i;}
     }
-    printf("%d", dop);
     
     return dop;
 }
 
 uint32_t eval(uint32_t lp, uint32_t rp){
-    printf("entering eval\n");
     if(lp > rp) { Assert (lp > rp, "Wrong expression!\n"); return 0;}
     
     else if (lp == rp){
@@ -247,7 +238,6 @@ uint32_t eval(uint32_t lp, uint32_t rp){
 }
 
 uint32_t expr(char *e, bool *success) {
-    printf("entering expr\n");
 	if(!make_token(e)) {
 		*success = false;
 		return 0;
