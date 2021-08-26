@@ -159,6 +159,7 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
             if (tokens[j].type == '(' && !cnt){key = false;break;}
             if (tokens[j].type == '(')cnt --;
             if (tokens[j].type == ')')cnt ++;
+			printf("HERE!\n");
         }
             if (!key)continue;
             if (tokens[i].priority <= min_priority){min_priority = tokens[i].priority;dop = i;}
