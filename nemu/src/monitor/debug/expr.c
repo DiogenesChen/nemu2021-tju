@@ -150,9 +150,11 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
 	printf("%d\n", dop);
     for(i = lp; i <= rp; i ++){
 	printf("here!\n");
-		printf("%d", rp);
-        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER)
+		printf("%d", lp);
+        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER){
                     continue;
+			printf("here!\n");
+		}
         int cnt = 0;
         bool key = true;
         for (j = i - 1; j >= lp ;j --){
