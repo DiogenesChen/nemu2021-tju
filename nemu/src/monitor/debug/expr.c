@@ -142,7 +142,7 @@ bool check_parentness(uint32_t lp, uint32_t rp){
     else return false;
 }
 
-uint32_t make_dop(uint32_t lp, uint32_t rp){
+uint32_t make_dop(int lp, int rp){
     printf("entering makedop\n");
     int i, j;
     int dop = lp;
