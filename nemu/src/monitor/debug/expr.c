@@ -146,8 +146,8 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
     printf("entering makedop\n");
     int i, j;
     int dop = lp;
-	printf("here!\n");
 	int min_priority = 10;
+	printf("here!\n");
 	printf("%d", dop);
     for(i = lp; i <= rp; i ++){
 		printf("%d", i);
