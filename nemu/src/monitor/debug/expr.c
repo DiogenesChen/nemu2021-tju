@@ -148,7 +148,7 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
     int dop = lp;
 	int min_priority = 10;
     for(i = lp; i <= rp; i ++){
-		if (tokens[i].type == NUMBER) continue;
+		if (tokens[i].type == '+') printf("PLUS!\n");
         if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER){
                     continue;
 			printf("here!\n");
