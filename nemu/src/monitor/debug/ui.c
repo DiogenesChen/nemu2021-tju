@@ -60,7 +60,7 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
         if(args) {
                 if( args[0] == 'r' ) {
-			int i;
+                    int i;
                         for(i = 0; i <= R_EDI; i++) {
                             printf( "$%s\t0x%08x\t%d\n", regsl[i], reg_l(i), reg_l(i));
                         }
@@ -87,11 +87,22 @@ static int cmd_x(char *args){
             printf("0x%08x : ", star_adress);
         printf("0x%08x ", swaddr_read(star_adress, 4));
         star_adress+=4;
-	if(!((i + 1) % 4))
-	    printf("\n");
     }
-    if(num % 4)
-	printf("\n");
+    return 0;
+}
+
+static int cmd_p(char* args){
+    if (args == NULL) {
+        printf("Argument lost, you may mean\n\tp [expression]\n");
+        return 0;
+    }
+    bool success;
+    int val;
+    val = expr(args, &success);
+    if(success)
+        printf("Expression value = %d", val);
+    else
+        Assert(1, "Unexpected expression");
     return 0;
 }
 
@@ -105,9 +116,10 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	{ "si", "Continue the excution for peticular steps(-num), default as 1", cmd_si },
-	{ "info", "Print the value of registers", cmd_info },
-	{ "x", "Print the address of memory", cmd_x},
+    { "si", "Continue the excution for peticular steps(-num), default as 1", cmd_si },
+    { "info", "Print the value of registers", cmd_info },
+    { "x", "Print the address of memory", cmd_x},
+    { "p", "Calculate given expression", cmd_p},
 
 	/* TODO: Add more commands */
 
@@ -171,3 +183,4 @@ void ui_mainloop() {
 		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
 	}
 }
+
