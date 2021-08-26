@@ -144,24 +144,24 @@ bool check_parentness(uint32_t lp, uint32_t rp){
 
 uint32_t make_dop(uint32_t lp, uint32_t rp){
     printf("entering makedop\n");
-    int i;
-    int dop = tokens[lp].priority;
-    for(i = lp; i <= rp; i++){
+    int i, j;
+    int dop = lp;
+	int min_priority = 10;
+    for(i = lp; i <= rp; i ++){
+        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER)
+                    continue;
         int cnt = 0;
-        bool jug = false;
-        if(tokens[i].priority > 0 && tokens[i].priority != 7){
-            int j;
-            for(j = i - 1; j >= lp; j --){
-                if(tokens[j].type == '(' && !cnt) { jug = false; break; }
-                if(tokens[i].type == '(') cnt--;
-                if(tokens[i].type == ')') cnt++;
-            }
-            if(!jug)
-                dop = (tokens[i].priority - tokens[dop].priority <= 0) ? i : dop;
+        bool key = true;
+        for (j = i - 1; j >= lp ;j --){
+            if (tokens[j].type == '(' && !cnt){key = false;break;}
+            if (tokens[j].type == '(')cnt --;
+            if (tokens[j].type == ')')cnt ++;
         }
+            if (!key)continue;
+            if (tokens[i].priority <= min_priority){min_priority = tokens[i].priority;dop = i;}
     }
-    
     printf("%d", dop);
+    
     return dop;
 }
 
