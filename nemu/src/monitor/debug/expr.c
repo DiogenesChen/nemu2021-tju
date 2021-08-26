@@ -244,23 +244,15 @@ uint32_t expr(char *e, bool *success) {
 
     /* TODO: Insert codes to evaluate the expression. */
     int i = 0;
-    for(; i < nr_token; i++){
-        if(
-           tokens[i].type == '-' &&
-           (i == 0 ||
-                (tokens[i].priority != 0 && tokens[i - 1].type != ')')
-            )){
-            tokens[i].type = MINUS;
-            tokens[i].priority = 6;
-        }
-        if(
-             tokens[i].type == '*' &&
-             (i == 0 ||
-                  (tokens[i].priority != 0 && tokens[i - 1].type != ')')
-              )){
+    for (i = 0;i < nr_token; i ++) {
+        if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type !=')'))) {
             tokens[i].type = POINTER;
-            tokens[i].priority = 6;
-        }
+                tokens[i].priority = 6;
+            }
+        if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type !=')'))) {
+                tokens[i].type = MINUS;
+                tokens[i].priority = 6;
+            }
     }
     *success = true;
     
