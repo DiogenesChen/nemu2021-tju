@@ -161,6 +161,7 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
         }
     }
     
+    printf("%d", dop);
     return dop;
 }
 
