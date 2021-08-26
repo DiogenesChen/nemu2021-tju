@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR, POINTER,
+	NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR, POINTER, MINUS,
 
 	/* TODO: Add more token types */
 
@@ -206,6 +206,17 @@ uint32_t eval(uint32_t lp, uint32_t rp){
     else{
         uint32_t dop;
         dop = make_dop(lp, rp);
+        if(dop == lp || tokens[dop].type == MINUS || tokens[dop].type == POINTER
+                || tokens[dop].type == '!'){
+            int val;
+            val = eval(lp + 1, rp);
+            switch (dop) {
+                case MINUS: return -val;
+                case POINTER: return swaddr_read(val, 4);
+                case '!': return !val;
+                default: Assert(1, "Wrong expression!");
+            }
+        }
         uint32_t val1, val2;
         val1 = eval(lp, dop - 1); val2 = eval(dop + 1, rp);
         
@@ -218,9 +229,7 @@ uint32_t eval(uint32_t lp, uint32_t rp){
             case AND: return val1 && val2;
             case EQ: return val1 == val2;
             case NEQ: return val1 != val2;
-            default:
-                Assert(1, "Wrong expression!");
-                break;
+            default: Assert(1, "Wrong expression!");
         }
     }
     
@@ -234,9 +243,20 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
+    int i = 0;
+    for(; i < nr_token; i++){
+        if(tokens[i].type == '-' && (i == 0 || tokens[i - 1].priority != 0 || tokens[i - 1].type != ')')){
+            tokens[i].type = MINUS;
+            tokens[i].priority = 6;
+        }
+        if(tokens[i].type == '*' && (i == 0 || tokens[i - 1].priority != 0 || tokens[i - 1].type != ')')){
+            tokens[i].type = POINTER;
+            tokens[i].priority = 6;
+        }
+    }
+    *success = true;
     
-    
-	return 0;
+	return eval(0, nr_token - 1);
 }
 
 
