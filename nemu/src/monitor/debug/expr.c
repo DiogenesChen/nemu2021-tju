@@ -147,10 +147,10 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
     int i, j;
     int dop = lp;
 	int min_priority = 10;
-	printf("%d/n", dop);
+	printf("%d\n", dop);
     for(i = lp; i <= rp; i ++){
 	printf("here!\n");
-		printf("%d", i);
+		printf("%d", rp);
         if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER)
                     continue;
         int cnt = 0;
