@@ -156,6 +156,7 @@ uint32_t make_dop(uint32_t lp, uint32_t rp){
         int cnt = 0;
         bool key = true;
         for (j = i - 1; j >= lp ;j --){
+			printf("%d, %d", i, j);
             if (tokens[j].type == '(' && !cnt){key = false;break;}
             if (tokens[j].type == '(')cnt --;
             if (tokens[j].type == ')')cnt ++;
