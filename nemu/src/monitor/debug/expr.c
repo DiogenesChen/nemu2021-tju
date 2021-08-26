@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR,
+	NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR, POINTER,
 
 	/* TODO: Add more token types */
 
@@ -24,7 +24,7 @@ static struct rule {
 	 */
 
 	{" +",	NOTYPE, 0},				// spaces
-    {"\\b[0-9]{1,31}\\b",NUMBER,0},      // number
+    {"\\b[0-9]{1,31}\\b",NUMBER,0}, // number
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -124,8 +124,71 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+int* check_parentness(uint32_t lp, uint32_t rp, bool* expressionCheker){
+    uint32_t calp[2];
+    calp[0] = lp; calp[1] = rp;
+    bool jug = false;
+    *expressionCheker = false;
+    int OBraceLefted = 0;
+    int i;
+    for(i = lp; i <= rp; i++){
+        if(tokens[i].type == '(')
+            OBraceLefted ++;
+        else if(OBraceLefted && tokens[i].type == ')'){
+            OBraceLefted --;
+            if(OBraceLefted == 0){
+                int j = 0;
+                for(; j <= rp; j++){
+                    if(tokens[j].type == ')')
+                        jug = false;
+                }
+                calp[1] = i;
+            }
+        }
+        else if (!OBraceLefted && tokens[i].type == ')')
+            return NULL;
+    }
+    if(OBraceLefted != 0) return NULL;
+    *expressionCheker = true;
+    bool jug2 = false;
+    for(i = lp; i < rp; i++){
+        if(tokens[i].type == NOTYPE)
+            continue;
+        if(tokens[i].type == '('){
+            jug2 = true;
+            break;
+        }
+        if(tokens[i].type != '('){
+            jug2 = false;
+            break;
+        }
+    }
+    calp[0] = i;
+    for(i = calp[1]; i <= rp; i++){
+        if(tokens[i].type != NOTYPE){
+            jug2 = false;
+            break;
+        }
+    }
+    calp[1] = i;
+    if(jug && jug2)
+        return calp;
+    else
+        return NULL;
+}
+
+uint32_t make_dop(uint32_t lp, uint32_t rp){
+    int i;
+    int dop = lp;
+    for(i = lp; i <= rp; i++){
+        if(tokens[i].priority > 0)
+    }
+}
+
 uint32_t eval(uint32_t lp, uint32_t rp){
+    bool* expressionChecker;
     if(lp > rp) { Assert (lp > rp, "Wrong expression!\n"); return 0;}
+    
     else if (lp == rp){
         uint32_t num = 0;
         if(tokens[lp].type == NUMBER)
@@ -156,8 +219,41 @@ uint32_t eval(uint32_t lp, uint32_t rp){
                     }
                 }
             }
+            else assert(1);
+        }
+        
+        return num;
+    }
+    
+    else if(check_parentness(lp, rp, expressionChecker) != NULL){
+        if(!expressionChecker){ Assert(1, "Wrong EXpression!"); return 0;}
+        return eval(lp + 1, rp - 1);
+    }
+    else{
+        uint32_t dop;
+        dop = make_dop(lp, rp);
+        uint32_t val1, val2;
+        val1 = eval(lp, dop - 1); val2 = eval(dop + 1, rp);
+        
+        switch (tokens[dop].type) {
+            case '+' :
+                return val1 + val2;
+                break;
+            case '-' :
+                return val1 - val2;
+                break;
+            case '*':
+                return val1 * val2;
+                break;
+            case '/':
+                return val1 / val2;
+                break;
+            default:
+                Assert(1, "Wrong expression!");
+                break;
         }
     }
+    
 }
 
 uint32_t expr(char *e, bool *success) {
