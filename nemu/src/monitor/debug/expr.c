@@ -210,7 +210,7 @@ uint32_t eval(int lp, int rp){
                 || tokens[dop].type == '!'){
             int val;
             val = eval(lp + 1, rp);
-            switch (dop) {
+            switch (tokens[dop].type) {
                 case MINUS: printf("WOW AGAIN!\n"); return -val;
                 case POINTER: return swaddr_read(val, 4);
                 case '!': return !val;
