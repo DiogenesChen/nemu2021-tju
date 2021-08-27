@@ -28,7 +28,7 @@ WP* new_wp(){
     p = head;
     free_ = free_ -> next;
     n -> next = NULL;
-    if(p == NULL) { head = n; p = head; printf("NULL");}
+    if(p == NULL) { head = n; p = head;}
     else{
         while (p -> next) p = p ->next;
         p -> next = n;
