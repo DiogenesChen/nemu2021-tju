@@ -24,7 +24,7 @@ static struct rule {
      */
 
     {" +",    NOTYPE, 0},                // spaces
-    {"\\b[0-9]{1,31}\\b",NUMBER,0}, // number
+    {"\\b[0-9]+\\b",NUMBER,0}, // number
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -36,8 +36,8 @@ static struct rule {
     {"!",'!',6},                    // not
     {"\\(", '(', 7},
     {"\\)", ')', 7},                // braces
-    {"\\b0[xX][0-9a-fA-F]{1,31}\\b",HNUMBER,0},        // hex number
-    {"\\$[a-zA-Z]{2,3}",REGISTER,0},                  // register
+    {"\\b0[xX][0-9a-fA-F]+\\b",HNUMBER,0},        // hex number
+    {"\\$[a-zA-Z]+",REGISTER,0},                  // register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -90,6 +90,7 @@ static bool make_token(char *e) {
                  * to record the token in the array `tokens'. For certain types
                  * of tokens, some extra actions should be performed.
                  */
+                substr_len = (substr_len > 29) ? 29 : substr_len;
                 switch(rules[i].token_type) {
                     case NOTYPE: break;
                     case REGISTER: {
