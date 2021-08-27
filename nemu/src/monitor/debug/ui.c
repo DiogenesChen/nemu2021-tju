@@ -124,8 +124,12 @@ static int cmd_w(char* args){
 }
 
 static int cmd_d(char* args){
+	if (args == NULL) {
+        printf("Argument lost, you may mean\n\td [watchpointNum]\n");
+        return 0;
+	}
     int num;
-    sscanf(&num, "%d", args);
+    sscanf(args, "%d", &num);
     delete_wp(num);
     
     return 0;
