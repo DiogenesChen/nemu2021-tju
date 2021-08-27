@@ -204,7 +204,7 @@ uint32_t eval(int l, int r,bool *success){
 		}
 	else if(tokens[l].type == NUM){
 		sscanf(tokens[l].str,"%d",&temp);
-		printf("%d", temp);
+		printf("%s", tokens[l].str);
 		return temp;
 		}	
 	
