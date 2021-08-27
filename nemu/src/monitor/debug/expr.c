@@ -161,7 +161,7 @@ uint32_t make_dop(int lp, int rp){
     return dop;
 }
 
-uint32_t eval(uint32_t lp, uint32_t rp){
+uint32_t eval(int lp, int rp){
     if(lp > rp) { Assert (lp > rp, "Wrong expression!\n"); return 0;}
     
     else if (lp == rp){
@@ -210,6 +210,7 @@ uint32_t eval(uint32_t lp, uint32_t rp){
                 || tokens[dop].type == '!'){
             int val;
             val = eval(lp + 1, rp);
+		printf("%d", val);
             switch (dop) {
                 case MINUS: return -val;
                 case POINTER: return swaddr_read(val, 4);
