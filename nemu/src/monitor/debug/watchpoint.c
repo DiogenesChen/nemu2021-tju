@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include "nemu.h"
 
 #define NR_WP 32
 
@@ -48,7 +49,7 @@ void free_wp(WP* wp){
     else{
         while (h -> next && h -> next -> NO != wp -> NO) h = h -> next;
         if(h -> next == NULL && h -> NO == wp -> NO) printf("GHOST!!!");
-        else if (h -> next -> NO == wo -> NO) f -> next = f -> next -> next;
+        else if (h -> next -> NO == wp -> NO) h -> next = h -> next -> next;
     }
     wp -> next = NULL;
     wp -> val = 0;
@@ -61,19 +62,19 @@ bool checkWP(){
     bool suc, key;
     key = true;
     while(wp != NULL){
-        int val = expr(wp -> args, suc);
+        int val = expr(wp -> args, &suc);
         if(!suc) assert(1);
         if(wp -> val != val){
             key = false;
-            printf ("Hit breakpoint %d at 0x%08x\n",f->b,cpu.eip);
-            f = f->next;
+            printf ("Hit breakpoint %d at 0x%08x\n", wp -> NO, cpu.eip);
+            wp = wp -> next;
             continue;
-            printf ("Watchpoint %d: %s\n",f -> NO,f -> args);
-            printf ("Old value = %d\n",f -> val);
+            printf ("Watchpoint %d: %s\n",wp -> NO,wp -> args);
+            printf ("Old value = %d\n",wp -> val);
             printf ("New value = %d\n",val);
-            f->val = val;
+            wp -> val = val;
         }
-        f = f->next;
+        wp = wp ->next;
     }
     
     return key;
