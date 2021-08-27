@@ -56,7 +56,7 @@ void free_wp(WP* wp){
     wp -> args[0] = '\0';
 }
 
-bool checkWP(){
+bool check_wp(){
 	printf("entering wp");
     WP* wp;
     wp = head;

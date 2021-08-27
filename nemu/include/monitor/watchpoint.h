@@ -22,5 +22,7 @@ void delete_wp(int);
 
 void info_wp();
 
+bool check_wp();
+
 #endif
 
