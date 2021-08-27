@@ -8,6 +8,7 @@ static WP wp_pool[NR_WP];
 static WP *head, *free_;
 
 void init_wp_pool() {
+	printf("entering init");
 	int i;
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
@@ -22,6 +23,7 @@ void init_wp_pool() {
 }
 
 WP* new_wp(){
+	printf("entering newwp");
     WP *n, *p;
     n = free_;
     p = head;
@@ -36,6 +38,7 @@ WP* new_wp(){
 }
 
 void free_wp(WP* wp){
+	printf("entering free");
     WP *h, *p;
     p = free_;
     if(p == NULL) { p = wp; free_ = wp;}
@@ -57,6 +60,7 @@ void free_wp(WP* wp){
 }
 
 bool checkWP(){
+	printf("entering wp");
     WP* wp;
     wp = head;
     bool suc, key;
@@ -81,12 +85,14 @@ bool checkWP(){
 }
 
 void delete_wp(int num){
+	printf("entering delete");
     WP *p;
     p = &wp_pool[num];
     free_wp (p);
 }
 
 void info_wp(){
+	printf("entering info");
     WP *p;
     p = head;
     while (p != NULL){
