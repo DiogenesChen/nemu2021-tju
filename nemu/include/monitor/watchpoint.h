@@ -5,6 +5,8 @@
 
 typedef struct watchpoint {
 	int NO;
+    int val;
+    char* args;
 	struct watchpoint *next;
 
 	/* TODO: Add more members if necessary */
@@ -12,4 +14,13 @@ typedef struct watchpoint {
 
 } WP;
 
+WP* new_wp();
+
+void free_wp(WP* wp);
+
+void delete_wp(int);
+
+void info_wp();
+
 #endif
+

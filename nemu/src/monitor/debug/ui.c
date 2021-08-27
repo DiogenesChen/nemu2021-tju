@@ -100,9 +100,25 @@ static int cmd_p(char* args){
     int val;
     val = expr(args, &success);
     if(success)
-        printf("Expression value = %d\n", val);
+        printf("Expression value = %d", val);
     else
         Assert(1, "Unexpected expression");
+    return 0;
+}
+
+static int cmd_w(char* args){
+    if (args == NULL) {
+        printf("Argument lost, you may mean\n\tw [expression]\n");
+        return 0;
+    }
+    WP *wp;
+    bool suc;
+    wp = new_wp();
+    printf ("Watchpoint %d: %s\n",wp -> NO, args);
+    wp -> val = expr (args,&suc);
+    strcpy (f -> args, args);
+    if (!suc) Assert (1,"Wrong expression\n");
+    printf ("Value : %d\n",f -> val);
     return 0;
 }
 
@@ -120,6 +136,7 @@ static struct {
     { "info", "Print the value of registers", cmd_info },
     { "x", "Print the address of memory", cmd_x},
     { "p", "Calculate given expression", cmd_p},
+    { "w", "Set watch point", cmd_w},
 
 	/* TODO: Add more commands */
 
