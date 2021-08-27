@@ -110,7 +110,7 @@ static int cmd_w(char* args){
     if (args == NULL) {
         printf("Argument lost, you may mean\n\tw [expression]\n");
         return 0;
-    }
+	}
     WP *wp;
     bool suc;
     wp = new_wp();
