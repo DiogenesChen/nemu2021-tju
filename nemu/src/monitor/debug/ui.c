@@ -100,7 +100,7 @@ static int cmd_p(char* args){
     int val;
     val = expr(args, &success);
     if(success)
-        printf("Expression value = %d", val);
+        printf("Expression value = %d\n", val);
     else
         Assert(1, "Unexpected expression");
     return 0;
