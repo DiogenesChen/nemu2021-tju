@@ -58,18 +58,21 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_info(char *args) {
-        if(args) {
-                if( args[0] == 'r' ) {
-                    int i;
-                        for(i = 0; i <= R_EDI; i++) {
-                            printf( "$%s\t0x%08x\t%d\n", regsl[i], reg_l(i), reg_l(i));
-                        }
-                        printf( "$eip\t0x%08x\t%d\n", cpu.eip, cpu.eip );
-                }
-            //或者一个一个打出来也可以
-                else if( args[0] == 'w' ){}
+    if(args) {
+        if( args[0] == 'r' ) {
+            int i;
+            for(i = 0; i <= R_EDI; i++) {
+                printf( "$%s\t0x%08x\t%d\n", regsl[i], reg_l(i), reg_l(i));
+            }
+            printf( "$eip\t0x%08x\t%d\n", cpu.eip, cpu.eip );
         }
-        else printf("Invalid Command");
+            //或者一个一个打出来也可以
+        else if( args[0] == 'w' ){
+            info_wp();
+        }
+    }
+    else printf("Invalid Command");
+    
     return 0;
 }
 
@@ -133,7 +136,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
     { "si", "Continue the excution for peticular steps(-num), default as 1", cmd_si },
-    { "info", "Print the value of registers", cmd_info },
+    { "info", "Print the value of registers, watchpoints", cmd_info },
     { "x", "Print the address of memory", cmd_x},
     { "p", "Calculate given expression", cmd_p},
     { "w", "Set watch point", cmd_w},

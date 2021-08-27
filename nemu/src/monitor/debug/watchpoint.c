@@ -20,7 +20,6 @@ void init_wp_pool() {
 }
 
 WP* new_wp(){
-	printf("entering newwp\n");
     WP *n, *p;
     n = free_;
     p = head;
@@ -35,7 +34,6 @@ WP* new_wp(){
 }
 
 void free_wp(WP* wp){
-	printf("entering free");
     WP *h, *p;
     p = free_;
     if(p == NULL) { p = wp; free_ = wp;}
@@ -57,7 +55,6 @@ void free_wp(WP* wp){
 }
 
 bool check_wp(){
-	printf("entering wp");
     WP* wp;
     wp = head;
     bool suc, key;
@@ -82,14 +79,12 @@ bool check_wp(){
 }
 
 void delete_wp(int num){
-	printf("entering delete");
     WP *p;
     p = &wp_pool[num];
     free_wp (p);
 }
 
 void info_wp(){
-	printf("entering info");
     WP *p;
     p = head;
     while (p != NULL){
