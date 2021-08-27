@@ -24,7 +24,7 @@ static struct rule {
      */
 
     {" +",    NOTYPE, 0},                // spaces
-    {"\\b[0-9]+\\b",NUMBER,0}, // number
+    {"\\b[0-9]{1,31}\\b",NUMBER,0}, // number
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -36,8 +36,8 @@ static struct rule {
     {"!",'!',6},                    // not
     {"\\(", '(', 7},
     {"\\)", ')', 7},                // braces
-    {"\\b0[xX][0-9a-fA-F]+\\b",HNUMBER,0},        // hex number
-    {"\\$[a-zA-Z]+",REGISTER,0},                  // register
+    {"\\b0[xX][0-9a-fA-F]{1,31}\\b",HNUMBER,0},        // hex number
+    {"\\$[a-zA-Z]{2,3}",REGISTER,0},                  // register
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -84,13 +84,12 @@ static bool make_token(char *e) {
                 char *substr_start = e + position;
                 int substr_len = pmatch.rm_eo;
 
-//                Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+//              Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
                 /* TODO: Now a new token is recognized with rules[i]. Add codes
                  * to record the token in the array `tokens'. For certain types
                  * of tokens, some extra actions should be performed.
                  */
-                substr_len = (substr_len > 29) ? 29 : substr_len;
                 switch(rules[i].token_type) {
                     case NOTYPE: break;
                     case REGISTER: {
@@ -125,7 +124,7 @@ static bool make_token(char *e) {
     return true;
 }
 
-bool check_parentness(int lp, int rp){
+bool check_parentness(uint32_t lp, uint32_t rp){
     if(tokens[lp].type == '(' && tokens[rp].type == ')'){
         int lbn = 0, rbn = 0;
         int i = lp + 1;
@@ -259,5 +258,3 @@ uint32_t expr(char *e, bool *success) {
     
     return eval(0, nr_token - 1);
 }
-
-
