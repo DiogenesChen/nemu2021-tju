@@ -125,7 +125,7 @@ static bool make_token(char *e) {
     return true;
 }
 
-bool check_parentness(uint32_t lp, uint32_t rp){
+bool check_parentness(int lp, int rp){
     if(tokens[lp].type == '(' && tokens[rp].type == ')'){
         int lbn = 0, rbn = 0;
         int i = lp + 1;
