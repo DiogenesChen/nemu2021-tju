@@ -11,8 +11,6 @@ void init_wp_pool() {
 	int i;
 	for(i = 0; i < NR_WP; i ++) {
 		wp_pool[i].NO = i;
-        wp_pool[i].val = 0;
-        wp_pool[i].args = NULL;
 		if(NR_WP-1-i) wp_pool[i].next = &wp_pool[i + 1];
 	}
 	wp_pool[NR_WP - 1].next = NULL;
@@ -55,7 +53,7 @@ void free_wp(WP* wp){
     }
     wp -> next = NULL;
     wp -> val = 0;
-    wp -> args = NULL;
+    wp -> args[0] = '\0';
 }
 
 bool checkWP(){
