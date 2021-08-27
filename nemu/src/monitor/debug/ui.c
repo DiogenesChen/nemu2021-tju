@@ -116,6 +116,7 @@ static int cmd_w(char* args){
     wp = new_wp();
     printf ("Watchpoint %d: %s\n",wp -> NO, args);
     wp -> val = expr (args,&suc);
+	printf("expr maken");
     strcpy (wp -> args, args);
     if (!suc) Assert (1,"Wrong expression\n");
     printf ("Value : %d\n",wp -> val);
