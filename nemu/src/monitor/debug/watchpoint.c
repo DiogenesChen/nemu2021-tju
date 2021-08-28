@@ -75,9 +75,14 @@ bool check_wp(){
 }
 
 void delete_wp(int num){
-    WP *p;
-    p = &wp_pool[num];
-    free_wp (p);
+    WP *p = head;
+	while(p -> next && p -> NO != num){
+		p = p -> next;
+	}
+	if( p -> NO == num )
+    	free_wp (p);
+	else
+		printf("unexpected number, delete failed\n");
 }
 
 void info_wp(){

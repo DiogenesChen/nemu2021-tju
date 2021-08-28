@@ -116,7 +116,7 @@ static int cmd_w(char* args){
     bool suc;
     wp = new_wp();
     wp -> val = expr (args,&suc);
-    if (!suc) { Assert (1,"Wrong expression\n"); delete_wp(wp -> NO); }
+    if (!suc) { Assert (1,"Wrong expression\n"); delete_wp(wp -> NO); return 0; }
     printf ("Watchpoint %d: %s\n",wp -> NO, args);
     strcpy (wp -> args, args);
     printf ("Value : %d\n",wp -> val);
