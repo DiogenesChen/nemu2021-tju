@@ -49,7 +49,6 @@ void free_wp(WP* wp){
         if(h -> next == NULL && h -> NO == wp -> NO) printf("GHOST!!!");
         else if (h -> next -> NO == wp -> NO) h -> next = h -> next -> next;
     }
-    wp -> next = NULL;
 }
 
 bool check_wp(){
