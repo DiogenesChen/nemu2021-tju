@@ -32,7 +32,6 @@ WP* new_wp(){
     }
     return n;
 }
-
 void free_wp(WP* wp){
     WP *h, *p;
     p = free_;
@@ -43,16 +42,14 @@ void free_wp(WP* wp){
         wp -> next = NULL;
     }
     h = head;
-    if(head == NULL) assert(0);
-    if ( head -> NO == wp -> NO ) head = head->next;
+    if( head == NULL ) assert(0);
+    if ( head -> NO == wp -> NO ) head = head -> next;
     else{
-        while (h -> next && h -> next -> NO != wp -> NO) h = h -> next;
+        while (h -> next != NULL && h -> next -> NO != wp -> NO) h = h -> next;
         if(h -> next == NULL && h -> NO == wp -> NO) printf("GHOST!!!");
         else if (h -> next -> NO == wp -> NO) h -> next = h -> next -> next;
     }
     wp -> next = NULL;
-    wp -> val = 0;
-    wp -> args[0] = '\0';
 }
 
 bool check_wp(){
@@ -66,8 +63,6 @@ bool check_wp(){
         if(wp -> val != val){
             key = false;
             printf ("Hit breakpoint %d at 0x%08x\n", wp -> NO, cpu.eip);
-            wp = wp -> next;
-            continue;
             printf ("Watchpoint %d: %s\n",wp -> NO,wp -> args);
             printf ("Old value = %d\n",wp -> val);
             printf ("New value = %d\n",val);
