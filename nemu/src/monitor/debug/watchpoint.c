@@ -43,7 +43,7 @@ void free_wp(WP* wp){
     }
     h = head;
     if( head == NULL ) assert(0);
-    if ( head -> NO == wp -> NO ) { head = head -> next; Log("head deleted");}
+    if ( head -> NO == wp -> NO )  {head = head -> next; printf("%d", head -> val);}
     else{
         while (h -> next != NULL && h -> next -> NO != wp -> NO) h = h -> next;
         if(h -> next == NULL && h -> NO == wp -> NO) printf("GHOST!!!");
