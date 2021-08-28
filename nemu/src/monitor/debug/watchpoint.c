@@ -32,6 +32,7 @@ WP* new_wp(){
     }
     return n;
 }
+
 void free_wp(WP* wp){
     WP *h, *p;
     p = free_;
@@ -39,16 +40,16 @@ void free_wp(WP* wp){
     else{
         while (p -> next) p = p -> next;
         p -> next = wp;
-        wp -> next = NULL;
     }
     h = head;
     if( head == NULL ) assert(0);
-    if ( head -> NO == wp -> NO )  {head = head -> next; printf("%d", head -> val);}
+    if ( head -> NO == wp -> NO ) head = head -> next;
     else{
         while (h -> next != NULL && h -> next -> NO != wp -> NO) h = h -> next;
         if(h -> next == NULL && h -> NO == wp -> NO) printf("GHOST!!!");
         else if (h -> next -> NO == wp -> NO) h -> next = h -> next -> next;
     }
+    wp -> next = NULL;
 }
 
 bool check_wp(){
