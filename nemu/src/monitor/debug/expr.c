@@ -166,8 +166,10 @@ uint32_t eval(int lp, int rp){
     
     else if (lp == rp){
         uint32_t num = 0;
-        if(tokens[lp].type == NUMBER)
+        if(tokens[lp].type == NUMBER){
             sscanf(tokens[lp].str, "%d", &num);
+	if(tokens[lp].str) printf("OK");
+}
         else if (tokens[lp].type == HNUMBER)
             sscanf(tokens[lp].str, "%x", &num);
         else if (tokens[lp].type == REGISTER){
