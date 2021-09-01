@@ -73,3 +73,9 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 
 submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
+
+# Command for count                                    
+COUNT_L := $(shell  find . -name "*.h" -or -name "*.c" | xargs grep -Ev "^$$" | wc -l)  
+
+count:                                  
+	@echo $(COUNT_L)     
