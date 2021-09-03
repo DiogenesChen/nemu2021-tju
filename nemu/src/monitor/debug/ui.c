@@ -45,7 +45,7 @@ static int cmd_si(char *args) {
                 break;
             charpointer++;
         }
-        if(!charpointer[0] && atoi(args) < 11 && atoi(args) > 0){
+        if(!charpointer[0] && atoi(args) > 0){
             steps = atoi(args);
             cpu_exec(steps);
         }
