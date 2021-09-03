@@ -1,5 +1,4 @@
 #include "cpu/exec/template-start.h"
-#include "cpu/eflags.h"
 
 #define instr test
 
