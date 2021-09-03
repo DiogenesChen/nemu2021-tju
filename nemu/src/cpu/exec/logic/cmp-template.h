@@ -4,13 +4,11 @@
 
 static void do_execute() {
 	DATA_TYPE result = op_dest->val - op_src->val;
-	update_eflags_pf_zf_sf(result);
-	cpu.eflags.CF = op_dest->val < op_src->val;
-	int s1, s2, len;
-	len = (DATA_BYTE << 3) - 1;
-	s1 = op_dest->val>>len;
-	s2 = op_src->val>>len;
-	cpu.eflags.OF = (s1 != s2 && s2 == cpu.eflags.SF) ;
+	
+	update_eflags_pf_zf_sf((DATA_TYPE_S)result);
+	cpu.eflags.CF = result > op_dest->val;
+	cpu.eflags.OF = MSB((op_dest->val ^ op_src->val) & (op_dest->val ^result));
+
 	print_asm_template2();
 }
 
