@@ -85,10 +85,11 @@ static int cmd_x(char *args){
     int i;
     for(i = 0; i < num; i++){
         if(!(i % 4))
-            printf("0x%08x : ", star_adress);
+            printf("\n0x%08x : ", star_adress);
         printf("0x%08x ", swaddr_read(star_adress, 4));
         star_adress+=4;
     }
+    printf("\n");
     return 0;
 }
 
