@@ -11,6 +11,7 @@ static void do_execute() {
 	s1 = op_dest->val>>len;
 	s2 = op_src->val>>len;
 	cpu.eflags.OF = (s1 != s2 && s2 == cpu.eflags.SF) ;
+	print_asm_template2();
 }
 
 make_instr_helper(i2a)
