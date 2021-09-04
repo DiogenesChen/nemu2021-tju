@@ -62,7 +62,7 @@ bool check_wp(){
         if(!suc) assert(1);
         if(wp -> val != val){
             key = false;
-            printf ("Hit breakpoint %d at 0x%08x\n", wp -> NO, cpu.eip);
+            printf ("Hint breakpoint %d at address 0x%08x\n", wp -> NO, cpu.eip);
             printf ("Watchpoint %d: %s\n",wp -> NO,wp -> args);
             printf ("Old value = %d\n",wp -> val);
             printf ("New value = %d\n",val);
