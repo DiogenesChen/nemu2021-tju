@@ -3,7 +3,7 @@
 #define instr ret
 
 make_helper(concat(ret_, SUFFIX)){
-	cpu.eip = MEM_R (reg_l (R_ESP));
+	cpu.eip = MEM_R (reg_l (R_ESP)) - 1;
 	reg_l (R_ESP) += DATA_BYTE;
 	print_asm("ret");
 	return 1;
