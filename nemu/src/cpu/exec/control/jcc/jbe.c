@@ -14,4 +14,4 @@
 
 /* for instruction encoding overloading */
 
-make_helper_v(jbe_i)
+make_helper_v(jbe_si)
