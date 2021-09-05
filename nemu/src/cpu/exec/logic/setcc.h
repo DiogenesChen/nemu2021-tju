@@ -4,6 +4,7 @@
 #include "setcc/setbe.h"
 #include "setcc/sete.h"
 #include "setcc/setg.h"
+#include "setcc/setge.h"
 #include "setcc/setne.h"
 #include "setcc/seto.h"
 #include "setcc/setp.h"
