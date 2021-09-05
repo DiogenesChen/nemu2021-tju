@@ -12,4 +12,4 @@
 #include "je-template.h"
 #undef DATA_BYTE
 
-make_helper_v(je_i)
+make_helper_v(je_si)
