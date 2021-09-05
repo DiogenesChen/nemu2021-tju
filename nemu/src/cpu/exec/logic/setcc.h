@@ -1,4 +1,7 @@
+#include "setcc/seta.h"
+#include "setcc/setae.h"
 #include "setcc/setb.h"
+#include "setcc/setbe.h"
 #include "setcc/sete.h"
 #include "setcc/setne.h"
 #include "setcc/seto.h"
