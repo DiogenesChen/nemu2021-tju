@@ -3,7 +3,8 @@
 #define instr jbe
 
 static void do_execute(){
-	print_asm("jbe %x",cpu.eip + 1 + DATA_BYTE + op_src->val);
+	print_asm("jbe %x", cpu.eip + 1 + DATA_BYTE + op_src->val);
+	Log("0x%x", cpu.eip + 1 + DATA_BYTE + op_src->val);
 	if(cpu.eflags.CF == 1 || cpu.eflags.ZF == 1) cpu.eip += op_src->val;
 }
 
