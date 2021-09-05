@@ -10,6 +10,7 @@ static void do_execute() {
     int s2 = op_src->val>>len;
     cpu.eflags.OF = (s1 == s2 && s2 != cpu.eflags.SF);
     cpu.eflags.CF = (result < op_dest->val);
+    OPERAND_W(op_dest, result);
     print_asm_template2();
 }
 
