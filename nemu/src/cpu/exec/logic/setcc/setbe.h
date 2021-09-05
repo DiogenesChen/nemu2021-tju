@@ -1,5 +1,5 @@
-#ifndef _SETBE_H_
-#define _SETBE_H_
+#ifndef __SETBE_H__
+#define __SETBE_H__
 
 make_helper(setbe_rm_b);
 

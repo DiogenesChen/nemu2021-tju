@@ -3,6 +3,7 @@
 #include "setcc/setb.h"
 #include "setcc/setbe.h"
 #include "setcc/sete.h"
+#include "setcc/setg.h"
 #include "setcc/setne.h"
 #include "setcc/seto.h"
 #include "setcc/setp.h"
