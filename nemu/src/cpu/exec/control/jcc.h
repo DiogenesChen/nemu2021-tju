@@ -4,3 +4,4 @@
 #include "jcc/jb.h"
 #include "jcc/jbe.h"
 #include "jcc/jne.h"
+#include "jcc/jng.h"
