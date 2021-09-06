@@ -8,3 +8,10 @@
 #include "jcc/jnle.h"
 #include "jcc/jl.h"
 #include "jcc/jge.h"
+#include "jcc/jo.h"
+#include "jcc/jno.h"
+#include "jcc/js.h"
+#include "jcc/jns.h"
+#include "jcc/jp.h"
+#include "jcc/jpo.h"
+
