@@ -34,5 +34,4 @@ FLOAT pow(FLOAT, FLOAT);
 #define FLOAT_ARG(f) (long long)f
 
 void init_FLOAT_vfprintf(void);
-
 #endif

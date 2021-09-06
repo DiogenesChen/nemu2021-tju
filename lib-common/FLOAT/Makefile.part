@@ -10,7 +10,11 @@ $(FLOAT): $(FLOAT_A_OBJ)
 
 # TODO: complete the following rules
 
-$(FLOAT_O):
+$(FLOAT_O): lib-common/FLOAT/FLOAT.c
+	mkdir -p $(@D)
+	gcc -m32 -fno-builtin -I$(LIB_COMMON_DIR) -O2 -c -o $@ $<
+$(FLOAT_VFPRINTF_O): lib-common/FLOAT/FLOAT_vfprintf.c
+	mkdir -p $(@D)
+	gcc -m32 -fno-builtin -I$(LIB_COMMON_DIR) -O2 -c -o $@ $<
 
-$(FLOAT_VFPRINTF_O):
 
