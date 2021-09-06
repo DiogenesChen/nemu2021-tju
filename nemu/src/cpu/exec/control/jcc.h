@@ -7,3 +7,4 @@
 #include "jcc/jng.h"
 #include "jcc/jnle.h"
 #include "jcc/jl.h"
+#include "jcc/jge.h"
