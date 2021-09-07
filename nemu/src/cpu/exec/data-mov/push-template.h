@@ -3,7 +3,7 @@
 #define instr push
 
 static void do_execute () {
-	reg_l (R_ESP) -= 4;
+	reg_l (R_ESP) -= ((DATA_BYTE == 1) ? 4 : DATA_BYTE);
 	if (DATA_BYTE == 1)op_src->val = (int8_t)op_src->val;
 	swaddr_write(reg_l(R_ESP), 4, op_src->val);
 	print_asm_template1();
