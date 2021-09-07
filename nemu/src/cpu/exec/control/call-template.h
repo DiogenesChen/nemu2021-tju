@@ -2,8 +2,8 @@
 
 #define instr call
 
-make_helper(concat(call_si_, SUFFIX)){
-    int len = concat(decode_si_, SUFFIX) (eip + 1);
+make_helper(concat(call_i_, SUFFIX)){
+    int len = concat(decode_i_, SUFFIX) (eip + 1);
 	reg_l(R_ESP) -= DATA_BYTE;      
 	swaddr_write(reg_l(R_ESP), 4, cpu.eip + (len + 1));
 	print_asm("call 0x%x", cpu.eip + 1 + len + op_src->val);
