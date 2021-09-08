@@ -10,13 +10,13 @@ static int nr_symtab_entry;
 
 int getVariable(char* name) {
 	Log("MATCHING\n");
-  int i = 0;
-  for (; i < nr_symtab_entry; i++) {
-    if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
-      char str[32];
-      strcpy(str, strtab + symtab[i].st_name);
-      if (strcmp(str, name) == 0) return symtab[i].st_value;
-    }
+  	int i = 0;
+  	for (; i < nr_symtab_entry; i++) {
+    	if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
+      	char str[32];
+      	strcpy(str, strtab + symtab[i].st_name);
+      	if (strcmp(str, name) == 0) return symtab[i].st_value;
+    	}
   }
   return 0;
 }
