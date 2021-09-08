@@ -86,7 +86,7 @@ static bool make_token(char *e) {
                 char *substr_start = e + position;
                 int substr_len = pmatch.rm_eo;
 
-                //Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+                Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 
                 /* TODO: Now a new token is recognized with rules[i]. Add codes
                  * to record the token in the array `tokens'. For certain types
@@ -109,7 +109,6 @@ static bool make_token(char *e) {
                         strncpy(tokens[nr_token].str, substr_start, substr_len);
                         tokens[nr_token].str[substr_len] = '\0';
                         nr_token ++;
-                        Log("%s", tokens[i].str);
 
                         break;
                     } // Normal types
