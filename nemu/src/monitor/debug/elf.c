@@ -14,7 +14,6 @@ int getVariable(char* name) {
     if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
       char str[32];
       strcpy(str, strtab + symtab[i].st_name);
-	  Log("MATCHING %s with %s\n", str, name);
       if (strcmp(str, name) == 0) return symtab[i].st_value;
     }
   }

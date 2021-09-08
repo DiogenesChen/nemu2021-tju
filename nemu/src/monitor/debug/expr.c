@@ -198,6 +198,7 @@ uint32_t eval(int lp, int rp){
                 }
             }
             else if (tokens[lp].type == VAR){
+                Log("MATCHING %s \n", tokens[lp].str);
                 num = getVariable(tokens[lp].str);
             }
 
