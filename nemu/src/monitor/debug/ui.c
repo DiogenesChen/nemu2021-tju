@@ -102,7 +102,7 @@ static int cmd_p(char* args){
     int val;
     val = expr(args, &success);
     if(success)
-        printf("Expression value = %d\n", val);
+        printf("Expression value = %d, 0x%x in hex\n", val, val);
     else
         Assert(1, "Unexpected expression");
     return 0;

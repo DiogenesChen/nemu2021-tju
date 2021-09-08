@@ -9,7 +9,6 @@ static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
 int getVariable(char* name) {
-	Log("MATCHING\n");
   	int i = 0;
   	for (; i < nr_symtab_entry; i++) {
     	if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
