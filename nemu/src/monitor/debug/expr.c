@@ -197,13 +197,10 @@ uint32_t eval(int lp, int rp){
                     }
                 }
             }
-            else if (tokens[lp].type == VAR){
-                Log("MATCHING %s \n", tokens[lp].str);
-                num = getVariable(tokens[lp].str);
-            }
-
-            else assert(1);
         }
+        else if (tokens[lp].type == VAR) num = getVariable(tokens[lp].str);
+
+        else assert(1);
         
         return num;
     }
