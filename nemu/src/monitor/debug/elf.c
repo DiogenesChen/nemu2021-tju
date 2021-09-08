@@ -8,27 +8,17 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
-uint32_t getAddress(char* target) {
-	char* index = NULL;
-	char* strtemp = strtab + 1;
-	int lentemp = strlen(strtab) - 1;
-
-	while(lentemp > 0) {
-		if(strcmp(strtemp, target) == 0) {
-			index = strtemp;
-			break;
-		}
-		lentemp = lentemp - strlen(strtemp) - 1;
-		strtemp = strtemp + strlen(strtemp) + 1;
-	}
-	uint32_t offset = index - strtab;
-	// Log("%d\n", offset);
-	int i;
-	for(i=0;i<nr_symtab_entry;i++) {
-		if(symtab[i].st_name == offset && ELF32_ST_TYPE(symtab[i].st_info) == STT_OBJECT)
-			return symtab[i].st_value;
-	}
-	return 0xFFFFFFFF;
+int getVariable(char* name) {
+	Log("MATCHING\n");
+  int i = 0;
+  for (; i < nr_symtab_entry; i++) {
+    if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
+      char str[32];
+      strcpy(str, strtab + symtab[i].st_name);
+      if (strcmp(str, name) == 0) return symtab[i].st_value;
+    }
+  }
+  return 0;
 }
 
 void load_elf_tables(int argc, char *argv[]) {
