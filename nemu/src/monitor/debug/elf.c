@@ -12,9 +12,9 @@ int getVariable(char* name) {
   int i = 0;
   for (; i < nr_symtab_entry; i++) {
     if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
-      char ls[32];
-      strcpy(ls, strtab + symtab[i].st_name);
-      if (strcmp(ls, name) == 0)
+      char str[32];
+      strcpy(str, strtab + symtab[i].st_name);
+      if (strcmp(str, name) == 0)
         return symtab[i].st_value;
     }
   }
