@@ -26,7 +26,6 @@ static struct rule {
 
     {" +",    NOTYPE, 0},                // spaces
     {"\\b[0-9]{1,31}\\b",NUMBER,0}, // number
-    {"\\b[a-fA-F_0-9]{1,31}", VAR, 0},    // varibale
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -40,6 +39,7 @@ static struct rule {
     {"\\)", ')', 7},                // braces
     {"\\b0[xX][0-9a-fA-F]{1,31}\\b",HNUMBER,0},        // hex number
     {"\\$[a-zA-Z]{2,3}",REGISTER,0},                  // register
+    {"\\b[a-zA-Z][a-zA-Z_0-9]{1,31}", VAR, 0},    // varibale
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
