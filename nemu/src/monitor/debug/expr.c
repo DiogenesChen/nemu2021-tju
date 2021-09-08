@@ -39,7 +39,7 @@ static struct rule {
     {"\\)", ')', 7},                // braces
     {"\\b0[xX][0-9a-fA-F]{1,31}\\b",HNUMBER,0},        // hex number
     {"\\$[a-zA-Z]{2,3}",REGISTER,0},                  // register
-    {"\\b[a-zA-Z][a-zA-Z_0-9]{1,31}", VAR, 0},    // varibale
+    {"\\[a-zA-Z][a-zA-Z_0-9]*", VAR, 0},    // varibale
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
