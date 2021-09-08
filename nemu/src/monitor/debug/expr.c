@@ -5,9 +5,10 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include "monitor/elf.h"
 
 enum {
-    NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR, POINTER, MINUS,
+    NOTYPE = 256, EQ, NUMBER, REGISTER, HNUMBER, NEQ, AND, OR, POINTER, MINUS, VAR
 
     /* TODO: Add more token types */
 
@@ -25,6 +26,7 @@ static struct rule {
 
     {" +",    NOTYPE, 0},                // spaces
     {"\\b[0-9]{1,31}\\b",NUMBER,0}, // number
+    {"\\b[a-fA-F_0-9]{1,31}", VAR, 0},    // varibale
     {"\\|\\|",OR,1},                // or
     {"&&",AND,2},                   // and
     {"==", EQ, 3},                  // equal
@@ -145,7 +147,8 @@ uint32_t make_dop(int lp, int rp){
     int dop = lp;
     int min_priority = 10;
     for(i = lp; i <= rp; i ++){
-        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER || tokens[i].type == REGISTER)
+        if (tokens[i].type == NUMBER || tokens[i].type == HNUMBER 
+                || tokens[i].type == REGISTER || tokens[i].type == VAR)
                     continue;
         int cnt = 0;
         bool key = true;
@@ -155,7 +158,7 @@ uint32_t make_dop(int lp, int rp){
             if (tokens[j].type == ')')cnt ++;
         }
             if (!key)continue;
-            if (tokens[i].priority <= min_priority){min_priority = tokens[i].priority;dop = i;}
+            if (tokens[i].priority <= min_priority){min_priority = tokens[i].priority; dop = i;}
     }
     
     return dop;
@@ -194,6 +197,10 @@ uint32_t eval(int lp, int rp){
                     }
                 }
             }
+            else if (tokens[lp].type == VAR){
+                num = getVariable(tokens[lp].str);
+            }
+
             else assert(1);
         }
         
@@ -245,11 +252,15 @@ uint32_t expr(char *e, bool *success) {
     /* TODO: Insert codes to evaluate the expression. */
     int i = 0;
     for (i = 0;i < nr_token; i ++) {
-        if (tokens[i].type == '*' && (i == 0 || (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type !=')'))) {
+        if (tokens[i].type == '*' && 
+                (i == 0 || 
+                    (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type != VAR  && tokens[i - 1].type !=')'))) {
             tokens[i].type = POINTER;
                 tokens[i].priority = 6;
             }
-        if (tokens[i].type == '-' && (i == 0 || (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type !=')'))) {
+        if (tokens[i].type == '-' && 
+                (i == 0 || 
+                    (tokens[i - 1].type != NUMBER && tokens[i - 1].type != HNUMBER && tokens[i - 1].type != REGISTER && tokens[i - 1].type != VAR  && tokens[i - 1].type !=')'))) {
                 tokens[i].type = MINUS;
                 tokens[i].priority = 6;
             }
