@@ -198,7 +198,11 @@ uint32_t eval(int lp, int rp){
                 }
             }
         }
-        else if (tokens[lp].type == VAR) num = getVariable(tokens[lp].str);
+        else if (tokens[lp].type == VAR) {
+            bool success = false;
+            num = getVariable(tokens[lp].str, &success);
+            if(!success) Assert(1, "wrong varibale");
+        }
 
         else assert(1);
         

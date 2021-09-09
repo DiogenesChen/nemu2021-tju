@@ -2,19 +2,41 @@
 #include <stdlib.h>
 #include <elf.h>
 
+// typedef struct {
+// 	swaddr_t prev_ebp;
+// 	swaddr_t ret_addr;
+// 	int args[4];
+// } StackFrame;
+
+
 char *exec_file = NULL;
 
 static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
+// static StackFrame stackFrame;
 
-int getVariable(char* name) {
+// void getFrame(swaddr_t addr, bool* success){
+// 	*success = false;
+// 	int i = 0;
+// 	for(; i < nr_symtab_entry; i++){
+// 		if((symtab[i].st_info & 0xf) == STT_FUNC){
+// 			if(addr > symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size)
+// 		}
+// 	}
+// }
+
+int getVariable(char* name, bool* success) {
+	*success = false;
   	int i = 0;
   	for (; i < nr_symtab_entry; i++) {
     	if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
       	char str[32];
       	strcpy(str, strtab + symtab[i].st_name);
-      	if (strcmp(str, name) == 0) return symtab[i].st_value;
+      	if (strcmp(str, name) == 0) {
+			  *success = true;
+			  return symtab[i].st_value;
+		  }
     	}
   }
   return 0;

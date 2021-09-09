@@ -69,7 +69,7 @@ static int cmd_info(char *args) {
             //或者一个一个打出来也可以
         else if( args[0] == 'w' ) info_wp();
     }
-    else printf("Invalid Command");
+    else printf("Invalid Command\n");
     
     return 0;
 }

@@ -3,6 +3,6 @@
 
 #include "common.h"
 
-int getVariable(char*);
+int getVariable(char*, bool*);
 
 #endif
