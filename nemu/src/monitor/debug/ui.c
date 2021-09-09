@@ -2,6 +2,7 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
+#include "monitor/elf.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -136,6 +137,19 @@ static int cmd_d(char* args){
     return 0;
 }
 
+static int cmd_bt(char* args){
+    bool success = false;
+    swaddr_t start = getFrame(cpu.eip, &success);
+    if(success){
+        int num = read_ebp(start);
+        while (num){
+            num = read_ebp(num);
+        }
+    }
+
+    return 0;  
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -152,6 +166,7 @@ static struct {
     { "p", "Calculate given expression", cmd_p},
     { "w", "Set watch point", cmd_w},
     { "d", "Delete watchpoints", cmd_d},
+    { "bt", "Print the stack information", cmd_bt},
 
 	/* TODO: Add more commands */
 

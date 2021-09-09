@@ -1,44 +1,68 @@
 #include "common.h"
+#include "nemu.h"
+#include "monitor/elf.h"
 #include <stdlib.h>
 #include <elf.h>
-
-// typedef struct {
-// 	swaddr_t prev_ebp;
-// 	swaddr_t ret_addr;
-// 	int args[4];
-// } StackFrame;
-
 
 char *exec_file = NULL;
 
 static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
-// static StackFrame stackFrame;
 
-// void getFrame(swaddr_t addr, bool* success){
-// 	*success = false;
-// 	int i = 0;
-// 	for(; i < nr_symtab_entry; i++){
-// 		if((symtab[i].st_info & 0xf) == STT_FUNC){
-// 			if(addr > symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size)
-// 		}
-// 	}
-// }
+swaddr_t read_ebp (swaddr_t addr){
+	PartOfStackFrame* ebp = NULL;
+	ebp -> prev_ebp = swaddr_read(addr, 4);
+	ebp -> ret_addr = swaddr_read(addr + 4, 4);
+	int i = 0, j = 0;
+	for(; i < nr_symtab_entry; i ++){
+		if(symtab[i].st_value == addr){
+			int strlen;
+			strlen = symtab[i+1].st_name - symtab[i].st_name - 1;
+			strncpy (ebp -> str, strtab+symtab[i].st_name, strlen);
+			ebp -> str[strlen] = '\0';
+		}
+	}
+	for(;j < 4;j ++) ebp -> args [i] = swaddr_read (addr + 8 + 4 * i, 4);
+	if(ebp -> prev_ebp == 0){
+		printf("#%d <main>", addr);
+		return 0;
+	}
+	printf("#%d <%s> return to %d args %d %d %d %d", addr, ebp -> str, ebp -> ret_addr,
+		ebp -> args[0], ebp -> args[1], ebp -> args[2], ebp -> args[3]);
+
+	return ebp -> prev_ebp;
+}
+
+swaddr_t getFrame(swaddr_t addr, bool* success){
+	*success = false;
+	int i = 0;
+	for(; i < nr_symtab_entry; i ++){
+		if((symtab[i].st_info & 0xf) == STT_FUNC){
+			if(addr > symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size){
+				*success = true;
+				return symtab[i].st_value;
+			}
+		}
+	}
+
+	printf("No stacks");
+	return 0;
+}
 
 int getVariable(char* name, bool* success) {
 	*success = false;
   	int i = 0;
   	for (; i < nr_symtab_entry; i++) {
     	if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
-      	char str[32];
-      	strcpy(str, strtab + symtab[i].st_name);
-      	if (strcmp(str, name) == 0) {
-			  *success = true;
-			  return symtab[i].st_value;
-		  }
+			char str[32];
+			strcpy(str, strtab + symtab[i].st_name);
+			if (strcmp(str, name) == 0) {
+				*success = true;
+				return symtab[i].st_value;
+			}
     	}
-  }
+  	}
   return 0;
 }
 
