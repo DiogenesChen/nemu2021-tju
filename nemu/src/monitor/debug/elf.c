@@ -34,10 +34,10 @@ void getFrame(){
 				break;
 			}
 		}
-		printf("%s\t",tmp);
+		printf("<%s>\t",tmp);
 		read_ebp (addr, &now_ebp);
-		if (strcmp (tmp,"main") == 0)printf ("( )\n");
-		else printf ("( %d , %d , %d , %d )\n", now_ebp.args[0],now_ebp.args[1],now_ebp.args[2],now_ebp.args[3]);
+		if (strcmp (tmp,"main") == 0)printf ("no args\n");
+		else printf ("args : ( %d , %d , %d , %d )\n", now_ebp.args[0],now_ebp.args[1],now_ebp.args[2],now_ebp.args[3]);
 		addr = now_ebp.prev_ebp;
 	}
 }
