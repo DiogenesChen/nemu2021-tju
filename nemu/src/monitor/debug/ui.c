@@ -1,8 +1,8 @@
 #include "monitor/monitor.h"
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
-#include "nemu.h"
 #include "monitor/elf.h"
+#include "nemu.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -137,17 +137,9 @@ static int cmd_d(char* args){
     return 0;
 }
 
-static int cmd_bt(char* args){
-    bool success = false;
-    swaddr_t start = getFrame(cpu.eip, &success);
-    if(success){
-        int num = read_ebp(start);
-        while (num){
-            num = read_ebp(num);
-        }
-    }
-
-    return 0;  
+static int cmd_bt(char *args) {
+	getFrame();
+    return 0;
 }
 
 static int cmd_help(char *args);

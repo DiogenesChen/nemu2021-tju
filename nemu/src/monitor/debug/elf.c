@@ -10,47 +10,39 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
-swaddr_t read_ebp (swaddr_t addr){
-	PartOfStackFrame* ebp = NULL;
-	ebp -> prev_ebp = swaddr_read(addr, 4);
-	ebp -> ret_addr = swaddr_read(addr + 4, 4);
-	int i = 0, j = 0;
-	for(; i < nr_symtab_entry; i ++){
-		if(symtab[i].st_value == addr){
-			int strlen;
-			strlen = symtab[i+1].st_name - symtab[i].st_name - 1;
-			strncpy (ebp -> str, strtab+symtab[i].st_name, strlen);
-			ebp -> str[strlen] = '\0';
-		}
-	}
-	for(;j < 4;j ++) ebp -> args [i] = swaddr_read (addr + 8 + 4 * i, 4);
-	if(ebp -> prev_ebp == 0){
-		printf("#%d <main>", addr);
-		return 0;
-	}
-	printf("#%d <%s> return to %d args %d %d %d %d", addr, ebp -> str, ebp -> ret_addr,
-		ebp -> args[0], ebp -> args[1], ebp -> args[2], ebp -> args[3]);
-
-	return ebp -> prev_ebp;
+ void read_ebp (swaddr_t addr ,PartOfStackFrame *ebp){
+	ebp -> prev_ebp = swaddr_read (addr , 4);
+	ebp -> ret_addr = swaddr_read (addr+4 , 4);
+	int i = 0;
+	for (;i < 4;i ++) ebp -> args [i] = swaddr_read (addr+8+4*i, 4);
 }
 
-swaddr_t getFrame(swaddr_t addr, bool* success){
-	*success = false;
-	int i = 0;
-	for(; i < nr_symtab_entry; i ++){
-		if((symtab[i].st_info & 0xf) == STT_FUNC){
-			if(addr > symtab[i].st_value && addr < symtab[i].st_value + symtab[i].st_size){
-				*success = true;
-				return symtab[i].st_value;
+void getFrame(){
+	int i, j = 0;
+	PartOfStackFrame now_ebp;
+	char tmp[32];
+	int tmplen;
+	swaddr_t addr = reg_l (R_EBP);
+	now_ebp.ret_addr = cpu.eip;
+	while (addr > 0){
+		printf ("#%d  0x%08x in ",j++,now_ebp.ret_addr);
+		for(i = 0; i < nr_symtab_entry; i ++){
+			if (symtab[i].st_value <= now_ebp.ret_addr && symtab[i].st_value +  symtab[i].st_size >= now_ebp.ret_addr && (symtab[i].st_info&0xf) == STT_FUNC){
+				tmplen = symtab[i+1].st_name - symtab[i].st_name - 1;
+				strncpy (tmp,strtab+symtab[i].st_name,tmplen);
+				tmp [tmplen] = '\0';
+				break;
 			}
 		}
+		printf("%s\t",tmp);
+		read_ebp (addr, &now_ebp);
+		if (strcmp (tmp,"main") == 0)printf ("( )\n");
+		else printf ("( %d , %d , %d , %d )\n", now_ebp.args[0],now_ebp.args[1],now_ebp.args[2],now_ebp.args[3]);
+		addr = now_ebp.prev_ebp;
 	}
-
-	printf("No stacks");
-	return 0;
 }
 
-int getVariable(char* name, bool* success) {
+int getVariable(char* name, bool* success){
 	*success = false;
   	int i = 0;
   	for (; i < nr_symtab_entry; i++) {
