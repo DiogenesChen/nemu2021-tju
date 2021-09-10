@@ -171,3 +171,4 @@ void init_FLOAT_vfprintf() {
 	modify_vfprintf();
 	modify_ppfs_setargs();
 }
+
