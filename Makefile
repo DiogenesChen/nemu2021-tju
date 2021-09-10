@@ -54,7 +54,7 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 USERPROG := obj/testcase/to-lower-case
-ENTRY := $(USERPROG)
+ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
