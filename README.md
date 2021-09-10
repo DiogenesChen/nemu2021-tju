@@ -42,6 +42,31 @@ Some small C programs to test the implementation of NEMU.
 
 ## uClibc
 
+uClibc(https://www.uclibc.org/) is a C library for embedding systems. It requires much fewer run-time support than glibc and is very friendly to NEMU.
+
+## kernel
+
+This is the simplified version of Nanos(http://cslab.nju.edu.cn/opsystem). It is a uni-tasking kernel with the following features.
+* 2 device drivers
+ * Ramdisk
+ * IDE
+* ELF32 loader
+* memory management with paging
+* a simple file system
+ * with fix number and size of files
+ * without directory
+* 6 system calls
+ * open, read, write, lseek, close, brk
+
+## typing game
+
+This is a fork of the demo of NJU 2013 oslab0(the origin repository has been deleted, but we have a fork of it -- https://github.com/nju-ics/os-lab0). It is ported to NEMU.
+
+## NEMU-PAL
+
+This is a fork of Wei Mingzhi's SDLPAL(https://github.com/CecilHarvey/sdlpal). It is obtained by refactoring the original SDLPAL, as well as porting to NEMU.
+
+
 ------
 
 # ICS2021编程作业
@@ -113,8 +138,6 @@ uClibc(https://www.uclibc.org/)是一个用于嵌入系统的C库。它需要的
 这是Wei Mingzhi的SDLPAL(https://github.com/CecilHarvey/sdlpal)的一个分叉。它是通过重构原始的SDLPAL，以及移植到NEMU而得到的。
 
 通过www.DeepL.com/Translator（免费版）翻译
-
-uClibc(https://www.uclibc.org/) is a C library for embedding systems. It requires much fewer run-time support than glibc and is very friendly to NEMU.
 
 ----
 
