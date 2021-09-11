@@ -16,7 +16,20 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int op = (f >> 31) & 0x1;
+	if (op) f = (~f) + 1;
+	int frac = 0;
+	int i = 15;
+	int base = 100000000;//Accuracy
+	for (; i >= 0; i --){
+		base >>= 1;
+		if (f&(1<<i)) frac += base;
+	}
+	int num = f >> 16;
+	int len = 0;
+	while (frac > 999999) frac /= 10;
+	if (op) len = sprintf(buf, "-%d.%06d", num, frac);
+	else len = sprintf(buf, "%d.%06d", num, frac);
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,6 +39,9 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+	int addr = (int)(&_vfprintf_internal);
+	int *pos = (int*)(addr + 0x307);
+	*pos += (int)format_FLOAT-(int)(&_fpmaxtostr);
 
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */

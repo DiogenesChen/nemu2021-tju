@@ -54,7 +54,7 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 USERPROG := obj/testcase/print-FLOAT-linux
-ENTRY := $(USERPROG)
+ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
