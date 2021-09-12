@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "FLOAT.h"
+#include <sys/mman.h>
 
 extern char _vfprintf_internal;
 extern char _fpmaxtostr;
+extern char _ppfs_setargs;
 extern int __stdio_fwrite(char *buf, int len, FILE *stream);
 
 __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
@@ -16,7 +18,29 @@ __attribute__((used)) static int format_FLOAT(FILE *stream, FLOAT f) {
 	 */
 
 	char buf[80];
-	int len = sprintf(buf, "0x%08x", f);
+	int op = (f >> 31) & 0x1;
+	if (op) f = (~f) + 1;
+
+
+	int frac = 0;
+	int i;
+	int base=100000000;//Accuracy
+	for (i = 15; i >= 0;i--){
+		base >>= 1;
+		if (f&(1<<i)){
+			frac += base;
+		}
+	}
+	int num = f >> 16;
+	int len = 0;
+	while (frac > 999999) frac /= 10;
+	if (op){
+		len = sprintf(buf,"-%d.%06d",num,frac);
+	}else {
+		len = sprintf(buf,"%d.%06d",num,frac);
+	}
+
+	//int len = sprintf(buf, "0x%08x", f);
 	return __stdio_fwrite(buf, len, stream);
 }
 
@@ -26,7 +50,35 @@ static void modify_vfprintf() {
 	 * is the code section in _vfprintf_internal() relative to the
 	 * hijack.
 	 */
+	int addr = (int)(&_vfprintf_internal);
 
+	// mprotect((void*)((addr + 0x306 - 100) & 0xfffff000), 4096*2, PROT_READ|PROT_WRITE|PROT_EXEC);
+
+	//fstpt -> push
+	char *hijack = (char*)(addr + 0x306 - 0xa);
+	*hijack = 0xff;//push m32
+	hijack = (char*)(addr + 0x306 - 0x9);
+	*hijack = 0x32;//ModR/M: 00 110 010
+	hijack = (char*)(addr + 0x306 - 0x8);
+	*hijack = 0x90;//nop
+
+	hijack = (char*)(addr + 0x306 - 0xb);
+	*hijack = 0x08;//sub 0x8,%esp
+
+	hijack = (char*)(addr + 0x306 - 0x22);
+	*hijack = 0x90;//fldt -> nop
+
+	hijack = (char*)(addr + 0x306 - 0x21);
+	*hijack = 0x90;//fldt -> nop
+
+	hijack = (char*)(addr + 0x306 - 0x1e);
+	*hijack = 0x90;//fldl -> nop
+
+	hijack = (char*)(addr + 0x306 - 0x1d);
+	*hijack = 0x90;//fldl -> nop
+
+	int *pos = (int*)(addr + 0x307);
+	*pos += (int)format_FLOAT-(int)(&_fpmaxtostr);
 #if 0
 	else if (ppfs->conv_num <= CONV_A) {  /* floating point */
 		ssize_t nf;
@@ -72,6 +124,14 @@ static void modify_ppfs_setargs() {
 	 * Below is the code section in _vfprintf_internal() relative to
 	 * the modification.
 	 */
+
+	int addr = (int)(&_ppfs_setargs);
+	char *hijack = (char*)(addr + 0x71);
+	*hijack = 0xeb;
+	hijack = (char*)(addr + 0x72);
+	*hijack = 0x30;
+	hijack = (char*)(addr + 0x73);
+	*hijack = 0x90;
 
 #if 0
 	enum {                          /* C type: */
