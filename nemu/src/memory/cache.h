@@ -52,7 +52,7 @@ int read_cache1(hwaddr_t addr){
     // i = group + rand() % Cache_L1_Way_Size;
     // /*new content*/
     // int j;
-    // for (j = 0;j < Cache_L1_Block_Size / BURST_LEN;j ++){
+    // for (j = 0; j < Cache_L1_Block_Size / BURST_LEN; j ++){
     //     ddr3_read_replace(block_start + BURST_LEN * j, cache1[i].data + BURST_LEN * j);
     // }
     cache1[i].valid = 1;

@@ -34,7 +34,7 @@ Cache_L1 cache1[Cache_L1_Size/Cache_L1_Block_Size];
 /*
 cache block 存储空间的大小为 64B
 cache 存储空间的大小为 4MB
-16-way set associative
+16路组相连
 标志位包括 valid bit 和 dirty bit
 替换算法采用随机方式
 write back
