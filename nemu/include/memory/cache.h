@@ -4,13 +4,13 @@
 #include "common.h"
 
 /*
-cache block 存储空间的大小为 64B
-cache 存储空间的大小为 64KB
-8路组相连
-标志位只需要 valid bit 即可
-替换算法采用随机方式
-write through
-not write allocate
+ cache block 存储空间的大小为 64B
+ cache 存储空间的大小为 64KB
+ 8-way set associative
+ 标志位只需要 valid bit 即可 
+ 替换算法采用随机方式
+ write through
+ not write allocate
 */
 
 #define Cache_L1_Size 64 * 1024
@@ -32,13 +32,13 @@ typedef struct{
 Cache_L1 cache1[Cache_L1_Size/Cache_L1_Block_Size];
 
 /*
-cache block 存储空间的大小为 64B
-cache 存储空间的大小为 4MB
-16路组相连
-标志位包括 valid bit 和 dirty bit
-替换算法采用随机方式
-write back
-write allocate
+ cache block 存储空间的大小为 64B
+ cache 存储空间的大小为 4MB
+ 16-way set associative
+ 标志位包括 valid bit 和 dirty bit 
+ 替换算法采用随机方式
+ write back
+ write allocate
 */
 
 #define Cache_L2_Size 4 * 1024 * 1024

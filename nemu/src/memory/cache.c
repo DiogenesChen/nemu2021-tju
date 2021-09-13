@@ -5,9 +5,9 @@
 #include <stdlib.h>
 #include "burst.h"
 
-void ddr3_read_replace(hwaddr_t addr, void *data);
+void ddr3_read_refer(hwaddr_t addr, void *data);
 void dram_write(hwaddr_t addr, size_t len, uint32_t data);
-void ddr3_write_replace(hwaddr_t addr, void *data, uint8_t *mask);
+void ddr3_write_refer(hwaddr_t addr, void *data, uint8_t *mask);
 
 void init_cache(){
     int i;
@@ -42,19 +42,6 @@ int read_cache1(hwaddr_t addr){
     srand(time(0));
     i = group + rand() % Cache_L1_Way_Size;
     memcpy(cache1[i].data, cache2[pl].data, Cache_L1_Block_Size);
-
-
-    // Random (PA3 task1)
-// #ifdef Test
-//     test_time += 200;
-// #endif
-    // srand(time(0));
-    // i = group + rand() % Cache_L1_Way_Size;
-    // /*new content*/
-    // int j;
-    // for (j = 0; j < Cache_L1_Block_Size / BURST_LEN; j ++){
-    //     ddr3_read_replace(block_start + BURST_LEN * j, cache1[i].data + BURST_LEN * j);
-    // }
     cache1[i].valid = 1;
     cache1[i].tag = tag;
     return i;
@@ -87,14 +74,14 @@ int read_cache2(hwaddr_t addr){
         uint32_t block_st = (cache2[i].tag << (Cache_L2_Group_Bit + Cache_L2_Block_Bit)) | (group_idx << Cache_L2_Block_Bit);
         int w;
         memset(ret,1,sizeof ret);
-        for (w = 0;w < Cache_L2_Block_Size / BURST_LEN; w++){
-            ddr3_write_replace(block_st + BURST_LEN * w, cache2[i].data + BURST_LEN * w,ret);
+        for (w = 0; w < Cache_L2_Block_Size / BURST_LEN; w++){
+            ddr3_write_refer(block_st + BURST_LEN * w, cache2[i].data + BURST_LEN * w,ret);
         }
     }
     /*new content*/
     int j;
-    for (j = 0;j < Cache_L2_Block_Size / BURST_LEN;j ++){
-        ddr3_read_replace(block_start + BURST_LEN * j, cache2[i].data + BURST_LEN * j);
+    for (j = 0; j < Cache_L2_Block_Size / BURST_LEN; j ++){
+        ddr3_read_refer(block_start + BURST_LEN * j, cache2[i].data + BURST_LEN * j);
     }
     cache2[i].dirty = 0;
     cache2[i].valid = 1;
