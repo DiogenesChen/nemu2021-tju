@@ -32,6 +32,7 @@ int read_cache1(hwaddr_t addr){
 
 #ifdef Test
             test_time += 2;//HIT in Cache1
+            Log("%d", test_time);
 #endif
             return i;
         }
