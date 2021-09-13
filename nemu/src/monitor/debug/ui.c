@@ -29,7 +29,9 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
+	printf("%d", test_time);
 	cpu_exec(-1);
+    printf("%d", test_time);
 	return 0;
 }
 
@@ -222,4 +224,3 @@ void ui_mainloop() {
 		if(i == NR_CMD) { printf("Unknown command '%s'\n", cmd); }
 	}
 }
-
