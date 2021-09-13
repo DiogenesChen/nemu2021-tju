@@ -57,25 +57,25 @@ static void modify_vfprintf() {
 	//fstpt -> push
 	char *hijack = (char*)(addr + 0x306 - 0xa);
 	*hijack = 0xff;//push m32
-	// hijack = (char*)(addr + 0x306 - 0x9);
-	// *hijack = 0x32;//ModR/M: 00 110 010
-	// hijack = (char*)(addr + 0x306 - 0x8);
-	// *hijack = 0x90;//nop
+	hijack = (char*)(addr + 0x306 - 0x9);
+	*hijack = 0x32;//ModR/M: 00 110 010
+	hijack = (char*)(addr + 0x306 - 0x8);
+	*hijack = 0x90;//nop
 
-	// hijack = (char*)(addr + 0x306 - 0xb);
-	// *hijack = 0x08;//sub 0x8,%esp
+	hijack = (char*)(addr + 0x306 - 0xb);
+	*hijack = 0x08;//sub 0x8,%esp
 
-	// hijack = (char*)(addr + 0x306 - 0x22);
-	// *hijack = 0x90;//fldt -> nop
+	hijack = (char*)(addr + 0x306 - 0x22);
+	*hijack = 0x90;//fldt -> nop
 
-	// hijack = (char*)(addr + 0x306 - 0x21);
-	// *hijack = 0x90;//fldt -> nop
+	hijack = (char*)(addr + 0x306 - 0x21);
+	*hijack = 0x90;//fldt -> nop
 
-	// hijack = (char*)(addr + 0x306 - 0x1e);
-	// *hijack = 0x90;//fldl -> nop
+	hijack = (char*)(addr + 0x306 - 0x1e);
+	*hijack = 0x90;//fldl -> nop
 
-	// hijack = (char*)(addr + 0x306 - 0x1d);
-	// *hijack = 0x90;//fldl -> nop
+	hijack = (char*)(addr + 0x306 - 0x1d);
+	*hijack = 0x90;//fldl -> nop
 
 	int *pos = (int*)(addr + 0x307);
 	*pos += (int)format_FLOAT-(int)(&_fpmaxtostr);
