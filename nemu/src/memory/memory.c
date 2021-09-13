@@ -23,7 +23,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 	int tmp = 0;
 	uint32_t ans = unalign_rw(ret + tmp, 4) & (~0u >> ((4 - len) << 3));
-	Log("%d", test_time);
 
 	return ans;
 }
