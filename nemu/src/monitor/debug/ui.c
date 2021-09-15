@@ -29,9 +29,7 @@ char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
-	printf("%d", test_time);
 	cpu_exec(-1);
-    printf("%d", test_time);
 	return 0;
 }
 
