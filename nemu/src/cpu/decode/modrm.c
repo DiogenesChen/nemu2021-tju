@@ -118,4 +118,3 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 		return instr_len;
 	}
 }
-
