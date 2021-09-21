@@ -7,8 +7,15 @@ static void do_execute() {
 	print_asm(str(instr) " %x", cpu.eip + 1 + DATA_BYTE);
 }
 
-make_instr_helper(i)
-make_instr_helper(rm)
+make_instr_helper(si)
+#if DATA_BYTE == 4
+make_helper(jmp_rm_l) {
+	int len = decode_rm_l(eip + 1);
+	cpu.eip = op_src->val - (len + 1);
+	print_asm(str(instr) " *%s", op_src->str);
+	return len + 1;
+}
+#endif
 
 #if DATA_BYTE == 4
 
@@ -24,7 +31,11 @@ make_helper(ljmp){
     cpu.eip = op1 - 7;
     cpu.cs.selector = op2;
 
-    uint16_t idx = cpu.cs.selector >> 3;
+    //current_sreg = R_CS;
+
+    // printf("%x\n",cpu.eip);
+    // printf("%x\n",instr_fetch(cpu.eip,1));
+    uint16_t idx = cpu.cs.selector >> 3;//index of sreg
 
 	Assert((idx << 3) <= cpu.gdtr.limit,"Segement Selector Is Out Of The Limit!");
     
@@ -33,14 +44,21 @@ make_helper(ljmp){
 	sreg_desc -> part1 = lnaddr_read(chart_addr, 4);
 	sreg_desc -> part2 = lnaddr_read(chart_addr + 4, 4);
 
+    // printf("%x     %x\n",sreg_desc -> part1,sreg_desc -> part2);
+
 	Assert(sreg_desc -> p == 1, "Segement Not Exist!");//p bit, whether sreg_desc exists
 
     uint32_t bases = 0;
 	
+    //printf("%x %x %x\n",sreg_desc -> base1,sreg_desc -> base2,sreg_desc -> base3);
+
 	bases |= ((uint32_t)sreg_desc -> base1);
 	bases |= ((uint32_t)sreg_desc -> base2)<< 16;
 	bases |= ((uint32_t)sreg_desc -> base3)<< 24;
+	//printf("%x\n",instr_fetch(cpu.eip,1));
     cpu.cs.base = bases;
+
+    //printf("%x\n",instr_fetch(cpu.eip,1));
 
 	uint32_t limits = 0;
 	limits |= ((uint32_t)sreg_desc -> limit1);
@@ -49,10 +67,9 @@ make_helper(ljmp){
     cpu.cs.limit = limits;
 
 
-	if (sreg_desc -> g == 1) cpu.cs.limit <<= 12;
+	if (sreg_desc -> g == 1) cpu.cs.limit <<= 12;//G = 0, unit = 1B;G = 1, unit = 4KB
     print_asm("ljump %x %x",op2,op1);
     return 1 + 6;    
 }
-
 #endif
 #include "cpu/exec/template-end.h"
