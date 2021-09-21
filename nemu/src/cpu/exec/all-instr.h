@@ -7,6 +7,7 @@
 #include "data-mov/push.h"
 #include "data-mov/pop.h"
 #include "data-mov/leave.h"
+#include "data-mov/lgdt.h"
 
 #include "arith/adc.h"
 #include "arith/dec.h"
