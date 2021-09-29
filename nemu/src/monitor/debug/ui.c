@@ -146,7 +146,7 @@ static int cmd_bt(char *args) {
 
 static int cmd_page(char* args) {
     if (args == NULL) {
-        printf("Argument lost, you may mean\n\tpage ADDR\n");
+        printf("Argument lost, you may mean\n\tpage [ADDR]\n");
         return 0;
 	}
 	uint32_t addr;
