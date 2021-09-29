@@ -137,7 +137,9 @@ typedef struct {
 }Page_Descriptor;
 
 extern CPU_state cpu;
+
 uint8_t current_sreg;
+
 void sreg_load(uint8_t);
 
 static inline int check_reg_index(int index) {

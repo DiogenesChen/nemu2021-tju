@@ -112,9 +112,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		uint32_t val = (addr_l << (l << 3)) | addr_r;
 		return val;
 	}else {
-		// printf("abcd\n");
 		hwaddr_t hwaddr = page_translate(addr);
-		// printf("efgh\n");
 		return hwaddr_read(hwaddr,len);
 	}
 }
