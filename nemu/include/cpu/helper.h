@@ -3,7 +3,7 @@
 
 #include "nemu.h"
 #include "cpu/decode/operand.h"
-#include "cpu/eflags.h" 
+#include "cpu/eflags.h"
 
 extern uint8_t current_sreg;
 
@@ -11,10 +11,14 @@ extern uint8_t current_sreg;
 #define make_helper(name) int name(swaddr_t eip)
 
 static inline uint32_t instr_fetch(swaddr_t addr, size_t len) {
-	return swaddr_read(addr, len);
+	uint8_t last_sreg = current_sreg;
+	current_sreg = R_CS;
+	uint32_t ret = swaddr_read(addr, len);
+	current_sreg = last_sreg;
+	return ret;
 }
 
-/* Instruction Decode and Execute */
+/* Instruction Decode and EXecute */
 static inline int idex(swaddr_t eip, int (*decode)(swaddr_t), void (*execute) (void)) {
 	/* eip is pointing to the opcode */
 	int len = decode(eip + 1);

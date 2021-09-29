@@ -3,15 +3,8 @@
 
 #include "common.h"
 
-typedef struct {
-    swaddr_t prev_ebp;
-    swaddr_t ret_addr;
-    uint32_t args[4];
-} PartOfStackFrame;
-
-void getFrame();
-
-int getVariable(char*, bool*); 
-
+void getFrame(swaddr_t, char*);
+uint32_t getVariable(char*, bool*);
+void getTable();
 
 #endif

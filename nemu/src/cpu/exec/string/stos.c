@@ -12,6 +12,4 @@
 #include "stos-template.h"
 #undef DATA_BYTE
 
-/* for instruction encoding overloading */
-
-make_helper_v(stos)
+make_helper_v(stos_m)

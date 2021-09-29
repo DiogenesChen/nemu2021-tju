@@ -1,6 +1,4 @@
 #include "common.h"
-#include "nemu.h"
-#include "monitor/elf.h"
 #include <stdlib.h>
 #include <elf.h>
 
@@ -10,52 +8,43 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
- void read_ebp (swaddr_t addr ,PartOfStackFrame *ebp){
-	ebp -> prev_ebp = swaddr_read (addr , 4);
-	ebp -> ret_addr = swaddr_read (addr+4 , 4);
-	int i = 0;
-	for (;i < 4;i ++) ebp -> args [i] = swaddr_read (addr+8+4*i, 4);
-}
-
-void getFrame(){
-	int i, j = 0;
-	PartOfStackFrame now_ebp;
-	char tmp[32];
-	int tmplen;
-	swaddr_t addr = reg_l (R_EBP);
-	now_ebp.ret_addr = cpu.eip;
-	while (addr > 0){
-		printf ("#%d  0x%08x in ",j++,now_ebp.ret_addr);
-		for(i = 0; i < nr_symtab_entry; i ++){
-			if (symtab[i].st_value <= now_ebp.ret_addr && symtab[i].st_value +  symtab[i].st_size >= now_ebp.ret_addr && (symtab[i].st_info&0xf) == STT_FUNC){
-				tmplen = symtab[i+1].st_name - symtab[i].st_name - 1;
-				strncpy (tmp,strtab+symtab[i].st_name,tmplen);
-				tmp [tmplen] = '\0';
-				break;
-			}
-		}
-		printf("<%s>\t",tmp);
-		read_ebp (addr, &now_ebp);
-		if (strcmp (tmp,"main") == 0)printf ("no args\n");
-		else printf ("args :  %d , %d , %d , %d \n", now_ebp.args[0],now_ebp.args[1],now_ebp.args[2],now_ebp.args[3]);
-		addr = now_ebp.prev_ebp;
-	}
-}
-
-int getVariable(char* name, bool* success){
-	*success = false;
-  	int i = 0;
-  	for (; i < nr_symtab_entry; i++) {
-    	if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
-			char str[32];
-			strcpy(str, strtab + symtab[i].st_name);
-			if (strcmp(str, name) == 0) {
-				*success = true;
-				return symtab[i].st_value;
-			}
-    	}
-  	}
+uint32_t getVariable(char* name, bool* success) {
+  *success = true;
+  int i;
+  for (i = 0; i < nr_symtab_entry; i++) {
+    if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
+      char ls[50];
+      strcpy(ls, strtab + symtab[i].st_name);
+      if (strcmp(ls, name) == 0)
+        return symtab[i].st_value;
+    }
+  }
+  *success = false;
   return 0;
+}
+
+void getTable() {
+  int i;
+  for (i = 0; i < nr_symtab_entry; i++) {
+    if ((symtab[i].st_info & 0xf) == STT_OBJECT) {
+      char ls[50];
+      strcpy(ls, strtab + symtab[i].st_name);
+      printf("%s\n", ls);
+    }
+  }
+}
+
+void getFrame(swaddr_t addr, char* s) {
+  int i;
+  for (i = 0; i < nr_symtab_entry; i++) {
+    int lslen;
+    if (symtab[i].st_value <= addr && symtab[i].st_value +  symtab[i].st_size >= addr && (symtab[i].st_info & 0xf) == STT_FUNC) {
+      lslen = symtab[i + 1].st_name - symtab[i].st_name - 1;
+      strncpy(s, strtab + symtab[i].st_name, lslen);
+      s [lslen] = '\0';
+      break;
+    }
+  }
 }
 
 void load_elf_tables(int argc, char *argv[]) {
@@ -130,3 +119,4 @@ void load_elf_tables(int argc, char *argv[]) {
 
 	fclose(fp);
 }
+

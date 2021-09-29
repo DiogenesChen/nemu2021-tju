@@ -3,9 +3,11 @@
 #define instr pop
 
 static void do_execute() {
-    reg_l(op_src->reg) = MEM_R(cpu.esp);
-	reg_l(R_ESP) += DATA_BYTE;
-	print_asm_template1();
+  current_sreg = R_SS;
+  OPERAND_W(op_src, MEM_R(REG(R_ESP)));
+  MEM_W(REG(R_ESP), 0);
+  REG(R_ESP) += DATA_BYTE;
+  print_asm_template1();
 }
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
