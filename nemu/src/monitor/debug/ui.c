@@ -152,7 +152,7 @@ static int cmd_page(char* args) {
 	uint32_t addr;
 	sscanf(args, "%x", &addr);
 	int flag = 0;
-	uint32_t real_addr = page_translate_additional(addr,&flag);
+	uint32_t real_addr = page_translate_additional(addr, &flag);
 	if (flag == 0) printf("0x%08x\n",real_addr);
 	else if (flag == 1) printf("Dir Cannot Be Used!\n");
 	else printf("Page Cannot Be Used!\n");
