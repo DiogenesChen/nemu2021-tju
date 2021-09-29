@@ -119,6 +119,23 @@ typedef struct{
 
 Sreg_Descriptor *sreg_desc;
 
+typedef struct {
+	union {
+		struct {
+			uint32_t p 	:1;
+			uint32_t rw	:1;
+			uint32_t us	:1;
+			uint32_t 	:2;
+			uint32_t a	:1;
+			uint32_t d 	:1;
+			uint32_t 	:2;
+			uint32_t avail	:3;
+			uint32_t addr 	:20;
+		};
+		uint32_t val;
+	};
+}Page_Descriptor;
+
 extern CPU_state cpu;
 uint8_t current_sreg;
 void sreg_load(uint8_t);

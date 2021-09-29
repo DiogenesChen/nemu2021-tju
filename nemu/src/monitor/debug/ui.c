@@ -9,6 +9,8 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
+hwaddr_t page_translate(lnaddr_t addr);
+hwaddr_t page_translate_additional(lnaddr_t addr,int* flag);
 
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -142,6 +144,21 @@ static int cmd_bt(char *args) {
     return 0;
 }
 
+static int cmd_page(char* args) {
+    if (args == NULL) {
+        printf("Argument lost, you may mean\n\tpage ADDR\n");
+        return 0;
+	}
+	uint32_t addr;
+	sscanf(args, "%x", &addr);
+	int flag = 0;
+	uint32_t real_addr = page_translate_additional(addr,&flag);
+	if (flag == 0) printf("0x%08x\n",real_addr);
+	else if (flag == 1) printf("Dir Cannot Be Used!\n");
+	else printf("Page Cannot Be Used!\n");
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
@@ -159,6 +176,7 @@ static struct {
     { "w", "Set watch point", cmd_w},
     { "d", "Delete watchpoints", cmd_d},
     { "bt", "Print the stack information", cmd_bt},
+    { "page", "Translate ADDR in PAGE MODE", cmd_page},
 
 	/* TODO: Add more commands */
 
